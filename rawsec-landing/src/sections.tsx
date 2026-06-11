@@ -131,6 +131,33 @@ const SVC_ICONS: Record<string, JSX.Element> = {
       <path d="M34 12 L29 23 A6 5 0 0 0 39 23 Z"></path>
     </svg>
   ),
+  brain: (
+    <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="icon">
+      <circle cx="22" cy="22" r="3.5"></circle>
+      <circle cx="11" cy="13" r="2.5"></circle>
+      <circle cx="33" cy="13" r="2.5"></circle>
+      <circle cx="11" cy="31" r="2.5"></circle>
+      <circle cx="33" cy="31" r="2.5"></circle>
+      <circle cx="22" cy="7" r="2.5"></circle>
+      <circle cx="22" cy="37" r="2.5"></circle>
+      <path d="M22 18.5 L22 9.5 M19.2 20.2 L13 15.5 M24.8 20.2 L31 15.5 M19.2 23.8 L13 28.5 M24.8 23.8 L31 28.5 M22 25.5 L22 34.5"></path>
+    </svg>
+  ),
+  card: (
+    <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="icon">
+      <rect x="5" y="11" width="34" height="22" rx="4"></rect>
+      <path d="M5 18 H39"></path>
+      <path d="M11 27 H20"></path>
+      <rect x="28" y="24" width="6" height="5" rx="1"></rect>
+    </svg>
+  ),
+  layers: (
+    <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="icon">
+      <path d="M22 6 L38 14 L22 22 L6 14 Z"></path>
+      <path d="M6 22 L22 30 L38 22"></path>
+      <path d="M6 30 L22 38 L38 30"></path>
+    </svg>
+  ),
 };
 
 export function Services({ L }: LProps) {
@@ -166,8 +193,8 @@ const LABEL_POS = [
   { x: 230, y: 66  },
   { x: 106, y: 166 },
   { x: 230, y: 262 },
-  { x: 338, y: 252 },
-  { x: 462, y: 76  },
+  { x: 338, y: 292 },
+  { x: 462, y: 44  },
   { x: 570, y: 66  },
   { x: 694, y: 166 },
   { x: 570, y: 262 },
@@ -286,25 +313,23 @@ export function Process({ L, motionLevel }: ProcessProps) {
               <path className="draw" d={LOOP_D} fill="none" strokeWidth="2.5" />
             )}
 
-            {/* Nodo izquierdo DEV */}
-            <circle className="node" cx="262" cy="160" r="32" strokeWidth="1.5" />
-            <text className="sec-core" style={{ fontSize: '22px' }} x="262" y="170" textAnchor="middle">DEV</text>
+            {/* Nodo izquierdo DEV — solo texto, sin círculo */}
+            <text style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '22px', fill: 'var(--text)', letterSpacing: '.08em' }} x="262" y="167" textAnchor="middle">DEV</text>
 
             {/* Nodo central */}
             <circle className="node" cx="400" cy="160" r="38" strokeWidth="1.5" />
             <text className="sec-core" x="400" y="170" textAnchor="middle">SEC</text>
 
-            {/* Nodo derecho OPS */}
-            <circle className="node" cx="538" cy="160" r="32" strokeWidth="1.5" />
-            <text className="sec-core" style={{ fontSize: '22px' }} x="538" y="170" textAnchor="middle">OPS</text>
+            {/* Nodo derecho OPS — solo texto, sin círculo */}
+            <text style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '22px', fill: 'var(--text)', letterSpacing: '.08em' }} x="538" y="167" textAnchor="middle">OPS</text>
 
             {/* Etiquetas — opacity controlada por rAF via clase loop-label */}
             {[
               { x: 230, y: 66  },
               { x: 106, y: 166 },
               { x: 230, y: 262 },
-              { x: 338, y: 252 },
-              { x: 462, y: 76  },
+              { x: 338, y: 292 },
+              { x: 462, y: 44  },
               { x: 570, y: 66  },
               { x: 694, y: 166 },
               { x: 570, y: 262 },

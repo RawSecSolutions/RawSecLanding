@@ -41,6 +41,15 @@ export const RAWSEC_I18N = {
         { icon: 'scale', title: 'Cumplimiento y datos',
           desc: 'Preparamos tu empresa para la Ley 21.719 de protección de datos personales, con evidencia auditable.',
           li: ['Diagnóstico de brechas normativas', 'Políticas y gestión de datos', 'Automatización del cumplimiento'] },
+        { icon: 'brain', title: 'IA Aplicada',
+          desc: 'Chatbots conversacionales, pipelines de Machine Learning y agentes RAG con modelos locales o en la nube.',
+          li: ['Chatbots RAG con LangChain + ChromaDB', 'Clasificación y predicción con ML supervisado', 'Modelos locales (Llama 3) y API GPT'] },
+        { icon: 'card', title: 'Pagos e Integraciones',
+          desc: 'Integración de pasarelas de pago chilenas e internacionales, con flujos completos de cobro y conciliación.',
+          li: ['Webpay / Transbank y Banchile Pagos', 'MercadoPago y Getnet REST API', 'Flujos de pago, refund y conciliación'] },
+        { icon: 'layers', title: 'Plataformas empresariales',
+          desc: 'Sistemas de gestión complejos — ISP, salud, educación — con arquitectura documentada y despliegue escalable.',
+          li: ['Arquitectura 4+1 y SCRUM++', 'WebSocket, Redis y colas en tiempo real', 'NGINX + Docker + Linux (Arch/Ubuntu)'] },
       ],
     },
     process: {
@@ -81,7 +90,6 @@ export const RAWSEC_I18N = {
     quotes: {
       label: '05 — clientes', title: 'Confían en RawSec.',
       items: [
-        { q: 'Nos construyeron la plataforma completa: cursos, pagos y certificados. Rápidos, claros y siempre disponibles.', who: 'Fundadora', org: 'KikiBrows · plataforma LMS' },
         { q: 'La experiencia 360° cambió la forma en que mostramos los terrenos. Los clientes recorren el proyecto sin moverse de su casa.', who: 'Equipo comercial', org: 'Mar y Cielo · inmobiliaria' },
         { q: 'Necesitaba presencia digital profesional y el resultado fue impecable, en tiempo y forma.', who: 'Psicóloga clínica', org: 'Consulta privada · Santiago' },
       ],
@@ -140,6 +148,15 @@ export const RAWSEC_I18N = {
         { icon: 'scale', title: 'Compliance & data',
           desc: 'We get your company ready for Chile\u2019s Law 21.719 on personal data protection, with auditable evidence.',
           li: ['Regulatory gap assessment', 'Data policies & governance', 'Compliance automation'] },
+        { icon: 'brain', title: 'Applied AI',
+          desc: 'Conversational chatbots, Machine Learning pipelines and RAG agents with local or cloud models.',
+          li: ['RAG chatbots with LangChain + ChromaDB', 'Supervised ML classification & prediction', 'Local models (Llama 3) and GPT API'] },
+        { icon: 'card', title: 'Payments & Integrations',
+          desc: 'Integration of local and international payment gateways, with full checkout and reconciliation flows.',
+          li: ['Webpay / Transbank & Banchile Pagos', 'MercadoPago & Getnet REST API', 'Payment flows, refunds & reconciliation'] },
+        { icon: 'layers', title: 'Enterprise platforms',
+          desc: 'Complex management systems \u2014 ISP, health, education \u2014 with documented architecture and scalable deployment.',
+          li: ['4+1 architecture & SCRUM++', 'WebSocket, Redis & real-time queues', 'NGINX + Docker + Linux (Arch/Ubuntu)'] },
       ],
     },
     process: {
@@ -180,7 +197,6 @@ export const RAWSEC_I18N = {
     quotes: {
       label: '05 — clients', title: 'They trust RawSec.',
       items: [
-        { q: 'They built our entire platform: courses, payments and certificates. Fast, clear and always available.', who: 'Founder', org: 'KikiBrows · LMS platform' },
         { q: 'The 360° experience changed how we showcase our land plots. Clients tour the project from home.', who: 'Sales team', org: 'Mar y Cielo · real estate' },
         { q: 'I needed a professional digital presence and the result was flawless, on time and on point.', who: 'Clinical psychologist', org: 'Private practice · Santiago' },
       ],
