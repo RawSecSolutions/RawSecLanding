@@ -26,8 +26,7 @@ export default function App() {
   
   const motionLevel = reduced ? 'min' : 'max';
 
-  useEffect(() => {
-    document.documentElement.style.setProperty('--accent', '#2dd4bf'); 
+  useEffect(() => { 
     document.documentElement.style.setProperty('--font-heading', 'var(--font-display)'); 
     
     document.body.classList.toggle('bg-grid', true);
