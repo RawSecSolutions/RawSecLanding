@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 // Importaciones activadas apuntando a los módulos que creamos
-import { Reveal, useCountdown, goToSection } from './fx';
+import { Reveal, useCountdown, goToSection, ScrambleText } from './fx';
 import { RAWSEC_EMAIL } from './data';
 
 // --- Interfaces ---
@@ -443,7 +443,7 @@ export function Quotes({ L }: LProps) {
           {s.items.map((q: any, i: number) => (
             <Reveal as="blockquote" key={i} className="quote" delay={i * 110}>
               <span className="qmark">"</span>
-              <p>{q.q}</p>
+              <p><ScrambleText text={q.q} /></p>
               <footer><b>{q.who}</b>{q.org}</footer>
             </Reveal>
           ))}

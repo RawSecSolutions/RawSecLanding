@@ -3,6 +3,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 // Importaciones activas (asumiendo que los archivos están en la misma carpeta)
 import { Nav, Strip, Services, Process, FeaturedProject, Team, Quotes, Contact, Footer } from './sections';
 import { HeroBlueprint } from './heroes';
+import { LoadScreen } from './fx';
 import { RAWSEC_I18N } from './data';
 
 export default function App() {
@@ -37,6 +38,7 @@ export default function App() {
 
   return (
     <>
+      <LoadScreen />
       <Nav L={L} lang={lang} setLang={setLang} />
       <HeroBlueprint L={L} motionLevel={motionLevel} />
       <Strip L={L} />

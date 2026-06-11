@@ -353,3 +353,39 @@ body.motion-min .loop-svg text.loop-label { opacity: 1; }
 
 /* particles canvas */
 .pfield { position: absolute; inset: 0; z-index: 0; }
+
+/* ============ load screen ============ */
+.load-screen {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity .65s cubic-bezier(.4,0,.2,1);
+}
+.load-screen--out { opacity: 0; pointer-events: none; }
+.load-content { display: flex; flex-direction: column; align-items: center; gap: 22px; }
+.load-logo {
+  font-family: var(--font-display); font-weight: 700; font-size: 48px;
+  letter-spacing: -0.025em; color: var(--text);
+  display: flex; align-items: center;
+}
+.load-logo span:first-child { color: var(--accent); }
+.load-cursor {
+  display: inline-block; width: 13px; height: 42px;
+  background: var(--accent); margin-left: 7px;
+  animation: blink 1s steps(1) infinite;
+  align-self: center;
+}
+.load-label {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .22em;
+  color: var(--muted); text-transform: uppercase;
+}
+.load-bar {
+  width: 220px; height: 2px;
+  background: rgba(255,255,255,0.07); border-radius: 2px; overflow: hidden;
+}
+.load-fill {
+  height: 100%; width: 0; background: var(--accent);
+  border-radius: 2px;
+  animation: loadprogress 1.35s cubic-bezier(.4,0,.2,1) forwards;
+}
+@keyframes loadprogress { 0% { width: 0; } 60% { width: 72%; } 100% { width: 100%; } }

@@ -331,3 +331,80 @@ export function goToSection(id: string) {
   const top = el.getBoundingClientRect().top + window.scrollY - 64;
   window.scrollTo({ top, behavior: document.body.classList.contains('motion-min') ? 'auto' : 'smooth' });
 }
+
+/* ---------- ScrambleText: decode animation on viewport entry ---------- */
+const SCRAMBLE_CHARS = '!<>-_\\/[]{}—=+*^?#@$%&|~·';
+
+export function ScrambleText({ text, className = '' }: { text: string; className?: string }) {
+  const [display, setDisplay] = useState(text);
+  const spanRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const el = spanRef.current;
+    if (!el || document.body.classList.contains('motion-min')) return;
+
+    let rafId: number;
+    let started = false;
+
+    const run = () => {
+      if (started) return;
+      started = true;
+      const duration = 820;
+      const t0 = performance.now();
+
+      const tick = (now: number) => {
+        const progress = Math.min(1, (now - t0) / duration);
+        setDisplay(
+          text.split('').map((char, i) => {
+            if (char === ' ') return ' ';
+            const resolved = (progress - (i / text.length) * 0.45) / 0.55;
+            if (resolved >= 1) return char;
+            return SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+          }).join('')
+        );
+        if (progress < 1) rafId = requestAnimationFrame(tick);
+        else setDisplay(text);
+      };
+
+      rafId = requestAnimationFrame(tick);
+    };
+
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) run(); }, { threshold: 0.25 });
+    io.observe(el);
+
+    return () => { io.disconnect(); cancelAnimationFrame(rafId); };
+  }, [text]);
+
+  return <span ref={spanRef} className={className}>{display}</span>;
+}
+
+/* ---------- LoadScreen: boot overlay while page loads ---------- */
+export function LoadScreen() {
+  const [out, setOut] = useState(false);
+  const [hidden, setHidden] = useState(false);
+
+  useEffect(() => {
+    const hide = () => {
+      setOut(true);
+      setTimeout(() => setHidden(true), 650);
+    };
+    const MIN_MS = 1400;
+    const t0 = Date.now();
+    const done = () => { setTimeout(hide, Math.max(0, MIN_MS - (Date.now() - t0))); };
+
+    if (document.readyState === 'complete') done();
+    else window.addEventListener('load', done, { once: true });
+  }, []);
+
+  if (hidden) return null;
+
+  return (
+    <div className={`load-screen${out ? ' load-screen--out' : ''}`} aria-hidden="true">
+      <div className="load-content">
+        <div className="load-logo">RAW<span>SEC</span><span className="load-cursor"></span></div>
+        <p className="load-label">INITIALIZING SECURE ENVIRONMENT</p>
+        <div className="load-bar"><div className="load-fill"></div></div>
+      </div>
+    </div>
+  );
+}
