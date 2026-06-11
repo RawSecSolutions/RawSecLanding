@@ -159,7 +159,32 @@ export function Services({ L }: LProps) {
 const LOOP_D = 'M 400 160 C 400 80, 310 56, 230 88 C 132 127, 132 193, 230 232 C 310 264, 400 240, 400 160 C 400 80, 490 56, 570 88 C 668 127, 668 193, 570 232 C 490 264, 400 240, 400 160';
 
 const PATH_LEN = 1314.74;
-const CYCLE_MS = 8000; // duración de una vuelta completa
+const CYCLE_MS = 8000;
+
+// Posicion XY de cada label en el viewBox — para calcular distancia al punto
+const LABEL_POS = [
+  { x: 230, y: 66  },
+  { x: 106, y: 166 },
+  { x: 230, y: 262 },
+  { x: 338, y: 252 },
+  { x: 462, y: 76  },
+  { x: 570, y: 66  },
+  { x: 694, y: 166 },
+  { x: 570, y: 262 },
+];
+
+// Encuentra la distancia en el path mas cercana a un punto XY
+function findClosestDist(ghost: SVGPathElement, tx: number, ty: number): number {
+  const steps = 500;
+  let best = 0, bestD = Infinity;
+  for (let i = 0; i <= steps; i++) {
+    const d = (i / steps) * PATH_LEN;
+    const p = ghost.getPointAtLength(d);
+    const dist = Math.hypot(p.x - tx, p.y - ty);
+    if (dist < bestD) { bestD = dist; best = d; }
+  }
+  return best;
+}
 
 export function Process({ L, motionLevel }: ProcessProps) {
   const s = L.process;
@@ -168,6 +193,9 @@ export function Process({ L, motionLevel }: ProcessProps) {
   const trailRef = useRef<SVGPathElement>(null);
   const dotRef = useRef<SVGCircleElement>(null);
   const ghostRef = useRef<SVGPathElement>(null);
+  const labelRefs = useRef<(SVGTextElement | null)[]>([]);
+  // Distancias cacheadas en el path para cada label
+  const labelDists = useRef<number[]>([]);
 
   useEffect(() => {
     if (motionLevel === 'min') return;
@@ -177,39 +205,51 @@ export function Process({ L, motionLevel }: ProcessProps) {
     const dot = dotRef.current;
     if (!ghost || !trail || !dot) return;
 
+    // Calcular distancia en el path de cada label una sola vez al montar
+    labelDists.current = LABEL_POS.map(pos => findClosestDist(ghost, pos.x, pos.y));
+
+    const TRIGGER_RADIUS = PATH_LEN / 8 * 0.35; // ventana de activacion ~35% del espacio entre labels
+
     let start: number | null = null;
 
     const tick = (ts: number) => {
       if (!start) start = ts;
       const elapsed = (ts - start) % (CYCLE_MS * 2);
       const inErase = elapsed >= CYCLE_MS;
-
-      // Progreso dentro de la fase actual: 0->1
       const phase = (elapsed % CYCLE_MS) / CYCLE_MS;
-
-      // El punto siempre avanza una vuelta completa por CYCLE_MS
       const dotDist = phase * PATH_LEN;
+
+      // Mover punto
       const p = ghost.getPointAtLength(dotDist);
       dot.setAttribute('cx', String(p.x));
       dot.setAttribute('cy', String(p.y));
 
-      let dashStart: number;
-      let dashLen: number;
-
+      // Estela
+      let dashStart: number, dashLen: number;
       if (!inErase) {
-        // FASE DRAW: frente sigue al punto, cola fija en 0
         dashStart = 0;
         dashLen = dotDist;
       } else {
-        // FASE ERASE: linea completa dibujada, cola = dotDist borra desde atras
         dashStart = dotDist;
         dashLen = PATH_LEN - dotDist;
       }
+      trail.setAttribute('stroke-dasharray', `0 ${dashStart} ${Math.max(0, dashLen)} ${PATH_LEN}`);
 
-      trail.setAttribute(
-        'stroke-dasharray',
-        `0 ${dashStart} ${Math.max(0, dashLen)} ${PATH_LEN}`
-      );
+      // Labels: visible si la linea ya paso por su posicion (fase draw)
+      // o si aun no la borro (fase erase)
+      labelDists.current.forEach((labelDist, i) => {
+        const el = labelRefs.current[i];
+        if (!el) return;
+        let visible: boolean;
+        if (!inErase) {
+          // draw: visible si dotDist ya supero la posicion del label
+          visible = dotDist >= labelDist;
+        } else {
+          // erase: visible mientras dotDist aun no llego a la posicion del label
+          visible = dotDist < labelDist;
+        }
+        el.style.opacity = visible ? '1' : '0';
+      });
 
       rafRef.current = requestAnimationFrame(tick);
     };
@@ -250,15 +290,28 @@ export function Process({ L, motionLevel }: ProcessProps) {
             <circle className="node" cx="400" cy="160" r="38" strokeWidth="1.5" />
             <text className="sec-core" x="400" y="170" textAnchor="middle">SEC</text>
 
-            {/* Etiquetas de pasos */}
-            <text x="230" y="66"  textAnchor="middle">{s.steps[0].n}</text>
-            <text x="106" y="166" textAnchor="middle">{s.steps[1].n}</text>
-            <text x="230" y="262" textAnchor="middle">{s.steps[2].n}</text>
-            <text x="338" y="252" textAnchor="middle">{s.steps[3].n}</text>
-            <text x="462" y="76"  textAnchor="middle">{s.steps[4].n}</text>
-            <text x="570" y="66"  textAnchor="middle">{s.steps[5].n}</text>
-            <text x="694" y="166" textAnchor="middle">{s.steps[6].n}</text>
-            <text x="570" y="262" textAnchor="middle">{s.steps[7].n}</text>
+            {/* Etiquetas — opacity controlada por rAF via clase loop-label */}
+            {[
+              { x: 230, y: 66  },
+              { x: 106, y: 166 },
+              { x: 230, y: 262 },
+              { x: 338, y: 252 },
+              { x: 462, y: 76  },
+              { x: 570, y: 66  },
+              { x: 694, y: 166 },
+              { x: 570, y: 262 },
+            ].map((pos, i) => (
+              <text
+                key={i}
+                ref={el => { labelRefs.current[i] = el; }}
+                x={pos.x}
+                y={pos.y}
+                textAnchor="middle"
+                className="loop-label"
+              >
+                {s.steps[i].n}
+              </text>
+            ))}
 
             {/* Punto controlado por rAF */}
             {motionLevel !== 'min' ? (

@@ -1,6 +1,6 @@
 /* ============ RawSec Solutions — tokens & base ============ */
 :root {
-  --accent: #00E5FF;
+  --accent: #34d399;
   --bg: #000000;
   --surface: #06090c;
   --card: #0a0e13;
@@ -81,7 +81,7 @@ section.block { position: relative; padding: 88px 0; }
   min-height: 48px; transition: transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s, background .25s, border-color .25s, color .25s;
   position: relative; overflow: hidden;
 }
-.btn-primary { background: var(--accent); color: #001016; border-color: var(--accent); }
+.btn-primary { background: var(--accent); color: #001a0e; border-color: var(--accent); }
 .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 0 1px var(--accent), 0 8px 32px var(--accent-30); }
 .btn-ghost { background: transparent; color: var(--text); border-color: var(--line); }
 .btn-ghost:hover { border-color: var(--accent-60); color: var(--accent); transform: translateY(-2px); }
@@ -244,6 +244,8 @@ body.motion-min .strip-track { animation: none; }
 .loop-svg .rail { stroke: rgba(255,255,255,0.07); }
 .loop-svg .draw { stroke: var(--accent); filter: drop-shadow(0 0 6px var(--accent-60)); }
 .loop-svg text { font-family: var(--font-mono); font-size: 13px; fill: var(--muted); letter-spacing: .06em; }
+.loop-svg text.loop-label { opacity: 0; transition: opacity 0.35s ease; }
+body.motion-min .loop-svg text.loop-label { opacity: 1; }
 .loop-svg .sec-core { font-family: var(--font-display); font-weight: 700; font-size: 30px; fill: var(--accent); letter-spacing: .1em; }
 .loop-svg .node { fill: var(--bg); stroke: var(--accent); }
 .steps-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
