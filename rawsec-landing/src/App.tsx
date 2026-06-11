@@ -26,8 +26,8 @@ export default function App() {
   
   const motionLevel = reduced ? 'min' : 'max';
 
-  useEffect(() => { 
-    document.documentElement.style.setProperty('--font-heading', 'var(--font-display)'); 
+  useEffect(() => {
+    document.documentElement.style.setProperty('--font-heading', 'var(--font-display)');
     
     document.body.classList.toggle('bg-grid', true);
     document.body.classList.toggle('scanlines', false);

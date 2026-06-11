@@ -111,10 +111,10 @@ export function ParticleField({ density = 60, motionLevel = 'max' }: ParticleFie
       canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
       
-      const count = Math.round((w * h) / 18000 * (density / 60));
+      const count = Math.round((w * h) / 13000 * (density / 60));
       nodes = Array.from({ length: Math.max(14, count) }, () => ({
         x: Math.random() * w, y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.35, vy: (Math.random() - 0.5) * 0.35,
+        vx: (Math.random() - 0.5) * 0.5, vy: (Math.random() - 0.5) * 0.5,
         r: Math.random() * 1.6 + 0.7,
       }));
     }
@@ -129,7 +129,7 @@ export function ParticleField({ density = 60, motionLevel = 'max' }: ParticleFie
         if (speed > 0) {
           n.x += n.vx * speed; n.y += n.vy * speed;
           const dx = n.x - mouse.x, dy = n.y - mouse.y, d2 = dx * dx + dy * dy;
-          if (d2 < 14400) { n.x += dx / Math.sqrt(d2 + 1) * 1.2; n.y += dy / Math.sqrt(d2 + 1) * 1.2; }
+          if (d2 < 25600) { n.x += dx / Math.sqrt(d2 + 1) * 2.4; n.y += dy / Math.sqrt(d2 + 1) * 2.4; }
           if (n.x < -20) n.x = w + 20; if (n.x > w + 20) n.x = -20;
           if (n.y < -20) n.y = h + 20; if (n.y > h + 20) n.y = -20;
         }

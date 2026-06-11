@@ -286,9 +286,17 @@ export function Process({ L, motionLevel }: ProcessProps) {
               <path className="draw" d={LOOP_D} fill="none" strokeWidth="2.5" />
             )}
 
+            {/* Nodo izquierdo DEV */}
+            <circle className="node" cx="262" cy="160" r="32" strokeWidth="1.5" />
+            <text className="sec-core" style={{ fontSize: '22px' }} x="262" y="170" textAnchor="middle">DEV</text>
+
             {/* Nodo central */}
             <circle className="node" cx="400" cy="160" r="38" strokeWidth="1.5" />
             <text className="sec-core" x="400" y="170" textAnchor="middle">SEC</text>
+
+            {/* Nodo derecho OPS */}
+            <circle className="node" cx="538" cy="160" r="32" strokeWidth="1.5" />
+            <text className="sec-core" style={{ fontSize: '22px' }} x="538" y="170" textAnchor="middle">OPS</text>
 
             {/* Etiquetas — opacity controlada por rAF via clase loop-label */}
             {[
