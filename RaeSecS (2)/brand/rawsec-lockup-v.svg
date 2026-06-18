@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 340" width="280" height="340" fill="none">
+  <title>RawSec — lockup vertical</title>
+  <defs>
+    
+  </defs>
+  
+  <g transform="translate(52,8) scale(1.467)">
+    <path d="M60 6 L108 40 L108 110 L60 144 L12 110 L12 40 Z" stroke="#34d399" stroke-width="7" stroke-linejoin="miter"></path>
+    <g stroke="#34d399" stroke-width="13" stroke-linecap="butt" stroke-linejoin="miter">
+      <path d="M46 50 L46 104"></path>
+      <path d="M46 50 L72 50 L80 58 L80 70 L72 78 L46 78"></path>
+      <path d="M58 78 L80 104"></path>
+    </g>
+  </g>
+  
+  <text x="140" y="260" font-family="&#39;Space Grotesk&#39;,system-ui,sans-serif" font-weight="700" font-size="52" letter-spacing="-1.5" text-anchor="middle">
+    <tspan fill="#ffffff">RAW</tspan><tspan fill="#34d399">SEC</tspan>
+  </text>
+  
+  <text x="140" y="286" font-family="&#39;JetBrains Mono&#39;,monospace" font-weight="500" font-size="12" letter-spacing="3.5" fill="#34d399" text-anchor="middle">SOLUTIONS</text>
+</svg>

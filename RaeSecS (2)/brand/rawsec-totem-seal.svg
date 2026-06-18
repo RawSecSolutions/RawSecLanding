@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="560" viewBox="0 0 280 560" fill="none">
+  <title>RawSec — tótem (sello)</title>
+  <g stroke="#34d399" stroke-width="13" stroke-linecap="butt" stroke-linejoin="miter">
+    <path d="M34 80 L34 250"></path>
+    <path d="M34 80 L74 80 L88 94 L88 118 L74 132 L34 132"></path>
+    <path d="M52 132 L88 250"></path>
+    <path d="M146 20 L118 250"></path>
+    <path d="M146 20 L174 250"></path>
+    <path d="M126 154 L166 154"></path>
+    <path d="M192 80 L210 250 L225 158 L240 250 L258 80"></path>
+    <path d="M88 330 L34 330 L34 410 L88 410 L88 490 L34 490"></path>
+    <path d="M120 326 L120 494"></path>
+    <path d="M120 326 L172 326"></path>
+    <path d="M120 410 L162 410"></path>
+    <path d="M120 494 L172 494"></path>
+    <path d="M258 330 L206 330 L206 490 L258 490"></path>
+    <path d="M44 506 L146 552 L248 506"></path>
+  </g>
+</svg>

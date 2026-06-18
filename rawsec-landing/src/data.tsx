@@ -27,7 +27,7 @@ export const RAWSEC_I18N = {
       ],
       coords: 'SANTIAGO, CHILE · 33.4489°S 70.6693°W',
     },
-    strip: ['Desarrollo full-stack', 'Pentesting certificado', 'Ley 21.719', 'Arquitectura cloud', 'Hardening de redes', 'Automatización'],
+    strip: ['Desarrollo full-stack', 'Pentesting certificado', 'Ley 21.719', 'Arquitectura cloud', 'Hardening de redes', 'Automatización', 'Machine Learning', 'Agentes RAG', 'LLMs', 'Visión computacional', 'Red Team', 'Forense digital', 'CCNA · Redes', 'AWS Security', 'Sistemas ISP', 'Pasarelas de pago', 'Dashboards financieros'],
     services: {
       label: '01 — servicios', title: 'Dos disciplinas, un equipo.',
       sub: 'La mayoría desarrolla primero y asegura después. Nosotros hacemos ambas cosas a la vez.',
@@ -92,7 +92,9 @@ export const RAWSEC_I18N = {
       items: [
         { q: 'La experiencia 360° cambió la forma en que mostramos los terrenos. Los clientes recorren el proyecto sin moverse de su casa.', who: 'Equipo comercial', org: 'Mar y Cielo · inmobiliaria' },
         { q: 'Necesitaba presencia digital profesional y el resultado fue impecable, en tiempo y forma.', who: 'Psicóloga clínica', org: 'Consulta privada · Santiago' },
+        { q: 'Automatizaron el flujo entre nuestro software de gestión y el SII, además de estructurar dos años de datos contables con claridad. Trabajo riguroso y de alto impacto.', who: 'Gerencia', org: 'Inmobiliaria Dominga Norte · La Serena' },
       ],
+      clientsStrip: ['KikiBrows · LMS & e-commerce', 'Mar y Cielo · Inmobiliaria', 'Landing Portafolio Psicológia · La Serena', 'Dominga Norte · Finanzas'],
     },
     contact: {
       label: '06 — contacto', title: '¿Conversamos?',
@@ -134,7 +136,7 @@ export const RAWSEC_I18N = {
       ],
       coords: 'SANTIAGO, CHILE · 33.4489°S 70.6693°W',
     },
-    strip: ['Full-stack development', 'Certified pentesting', 'Law 21.719', 'Cloud architecture', 'Network hardening', 'Automation'],
+    strip: ['Full-stack development', 'Certified pentesting', 'Law 21.719', 'Cloud architecture', 'Network hardening', 'Automation', 'Machine Learning', 'RAG Agents', 'LLMs', 'Computer Vision', 'Red Team', 'Digital Forensics', 'CCNA Networks', 'AWS Security', 'ISP Systems', 'Payment gateways', 'Financial dashboards'],
     services: {
       label: '01 — services', title: 'Two disciplines, one team.',
       sub: 'Most teams build first and secure later. We do both at once.',
@@ -199,7 +201,9 @@ export const RAWSEC_I18N = {
       items: [
         { q: 'The 360° experience changed how we showcase our land plots. Clients tour the project from home.', who: 'Sales team', org: 'Mar y Cielo · real estate' },
         { q: 'I needed a professional digital presence and the result was flawless, on time and on point.', who: 'Clinical psychologist', org: 'Private practice · Santiago' },
+        { q: 'They automated the flow between our management software and the tax authority, and structured two years of accounting data with clarity. Rigorous, high-impact work.', who: 'Management', org: 'Inmobiliaria Dominga Norte · La Serena' },
       ],
+      clientsStrip: ['KikiBrows · LMS & e-commerce', 'Mar y Cielo · Real estate', 'Psychology practice · Santiago', 'Dominga Norte · Finance'],
     },
     contact: {
       label: '06 — contact', title: 'Let\u2019s talk.',

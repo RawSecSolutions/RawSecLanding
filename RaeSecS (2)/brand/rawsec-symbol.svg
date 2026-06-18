@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="150" viewBox="0 0 120 150" fill="none">
+  <title>RawSec — símbolo Cristal-R</title>
+  <path d="M60 6 L108 40 L108 110 L60 144 L12 110 L12 40 Z" stroke="#34d399" stroke-width="7" stroke-linejoin="miter"></path>
+  <g stroke="#34d399" stroke-width="13" stroke-linecap="butt" stroke-linejoin="miter">
+    <path d="M46 50 L46 104"></path>
+    <path d="M46 50 L72 50 L80 58 L80 70 L72 78 L46 78"></path>
+    <path d="M58 78 L80 104"></path>
+  </g>
+</svg>

@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef, ElementType, RefObject } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import type { ElementType, RefObject } from 'react';
 
 // --- Interfaces ---
 interface RevealProps {
@@ -83,6 +84,17 @@ export function Reveal({ children, delay = 0, as: Tag = 'div', className = '', .
   );
 }
 
+/* ---------- Señales de carga (module-level, race-safe) ---------- */
+function makeSignal(): [() => void, () => Promise<void>] {
+  let ready = false;
+  const resolvers: Array<() => void> = [];
+  const signal = () => { if (ready) return; ready = true; resolvers.splice(0).forEach(r => r()); };
+  const wait   = (): Promise<void> => ready ? Promise.resolve() : new Promise(r => resolvers.push(r));
+  return [signal, wait];
+}
+const [signalParticlesReady, waitForParticles] = makeSignal();
+export const [signalAppReady, waitForAppReady] = makeSignal();
+
 /* ---------- ParticleField: network of drifting nodes ---------- */
 export function ParticleField({ density = 60, motionLevel = 'max' }: ParticleFieldProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -111,7 +123,7 @@ export function ParticleField({ density = 60, motionLevel = 'max' }: ParticleFie
       canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
       
-      const count = Math.round((w * h) / 13000 * (density / 60));
+      const count = Math.min(240, Math.round((w * h) / 13000 * (density / 60)));
       nodes = Array.from({ length: Math.max(14, count) }, () => ({
         x: Math.random() * w, y: Math.random() * h,
         vx: (Math.random() - 0.5) * 0.5, vy: (Math.random() - 0.5) * 0.5,
@@ -119,6 +131,7 @@ export function ParticleField({ density = 60, motionLevel = 'max' }: ParticleFie
       }));
     }
 
+    let firstFrame = true;
     function frame() {
       if (!running || !ctx) return;
       ctx.clearRect(0, 0, w, h);
@@ -155,6 +168,7 @@ export function ParticleField({ density = 60, motionLevel = 'max' }: ParticleFie
       }
       ctx.globalAlpha = 1;
       
+      if (firstFrame) { firstFrame = false; signalParticlesReady(); }
       if (speed > 0) raf = requestAnimationFrame(frame);
     }
 
@@ -378,32 +392,110 @@ export function ScrambleText({ text, className = '' }: { text: string; className
   return <span ref={spanRef} className={className}>{display}</span>;
 }
 
-/* ---------- LoadScreen: boot overlay while page loads ---------- */
+/* ---------- LoadScreen: boot overlay ----------
+   Fases:
+   0          → R solo, barra 0 %
+   1..N       → cada señal avanza la barra; cursor aparece en fase 1
+   final(N+1) → barra 100 %, RAWSEC se expande empujando el cursor
+   --------------------------------------------------------- */
+type LoadPhase = number; // 0 = inicial, 1..N = intermedias, N+1 = final
+
 export function LoadScreen() {
-  const [out, setOut] = useState(false);
+  const [phase,  setPhase]  = useState<LoadPhase>(0);
+  const [out,    setOut]    = useState(false);
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
-    const hide = () => {
-      setOut(true);
-      setTimeout(() => setHidden(true), 650);
-    };
-    const MIN_MS = 1400;
     const t0 = Date.now();
-    const done = () => { setTimeout(hide, Math.max(0, MIN_MS - (Date.now() - t0))); };
+    const MIN_PER = 300; // ms mínimos por fase para que sea visible
+    let lastT = t0;
 
-    if (document.readyState === 'complete') done();
-    else window.addEventListener('load', done, { once: true });
+    // Señales ordenadas — cada una dispara una fase intermedia
+    const SIGNALS: Promise<unknown>[] = [
+      document.fonts.ready,  // fase 1: fuentes listas
+      waitForParticles(),     // fase 2: canvas primer frame
+      waitForAppReady(),      // fase 3: React montado + browser idle
+    ];
+    const FINAL = SIGNALS.length + 1; // fase final = N+1
+
+    // Avanzar una fase con mínimo MIN_PER entre transiciones
+    const advance = (p: LoadPhase) => new Promise<void>(r => {
+      const wait = Math.max(0, MIN_PER - (Date.now() - lastT));
+      setTimeout(() => { lastT = Date.now(); setPhase(p); r(); }, wait);
+    });
+
+    const hide = () => {
+      const wait = Math.max(700, 2200 - (Date.now() - t0));
+      setTimeout(() => { setOut(true); setTimeout(() => setHidden(true), 650); }, wait);
+    };
+
+    // Guard: fuerza fase final si algo tarda demasiado
+    const guard = window.setTimeout(() => {
+      setPhase(FINAL);
+      setTimeout(() => { setOut(true); setTimeout(() => setHidden(true), 650); }, 900);
+    }, 5000);
+
+    // Encadenar señales → fases
+    (async () => {
+      try {
+        for (let i = 0; i < SIGNALS.length; i++) {
+          await SIGNALS[i].catch(() => {});
+          await advance(i + 1);
+        }
+        clearTimeout(guard);
+        await advance(FINAL);
+        hide();
+      } catch {
+        clearTimeout(guard);
+        setPhase(FINAL);
+        hide();
+      }
+    })();
+
+    return () => clearTimeout(guard);
   }, []);
 
   if (hidden) return null;
 
+  // Progreso proporcional: N señales + fase final = N+1 pasos
+  const N_SIGNALS = 3;
+  const FINAL_PHASE = N_SIGNALS + 1;
+  const progress = phase === 0 ? 0 : Math.round((phase / FINAL_PHASE) * 100);
+  const cursorVisible = phase >= 1;
+  const wordmarkVisible = phase >= FINAL_PHASE;
+
   return (
     <div className={`load-screen${out ? ' load-screen--out' : ''}`} aria-hidden="true">
-      <div className="load-content">
-        <div className="load-logo">RAW<span>SEC</span><span className="load-cursor"></span></div>
+      <div className="load-content load-content--in">
+        <div className="load-lockup">
+          {/* Cristal-R — SVG puro, aparece inmediatamente */}
+          <svg className="load-sym" width="66" height="82" viewBox="0 0 120 150" fill="none">
+            <path d="M60 6 L108 40 L108 110 L60 144 L12 110 L12 40 Z"
+                  stroke="var(--accent)" strokeWidth="7" strokeLinejoin="miter"/>
+            <g stroke="var(--accent)" strokeWidth="13" strokeLinecap="butt" strokeLinejoin="miter">
+              <path d="M46 50 L46 104"/>
+              <path d="M46 50 L72 50 L80 58 L80 70 L72 78 L46 78"/>
+              <path d="M58 78 L80 104"/>
+            </g>
+          </svg>
+          <div className="load-divider"></div>
+          {/* Panel derecho: cursor en fase 1+, RAWSEC en fase final */}
+          <div className={`load-right${cursorVisible ? ' load-right--in' : ''}`}>
+            <div className="load-logo-row">
+              <div className={`load-logo${wordmarkVisible ? ' load-logo--in' : ''}`}>
+                RAW<span>SEC</span>
+              </div>
+              <span className="load-cursor"></span>
+            </div>
+            <div className={`load-sub${wordmarkVisible ? ' load-sub--in' : ''}`}>
+              SOLUTIONS · SpA
+            </div>
+          </div>
+        </div>
         <p className="load-label">INITIALIZING SECURE ENVIRONMENT</p>
-        <div className="load-bar"><div className="load-fill"></div></div>
+        <div className="load-bar">
+          <div className="load-fill" style={{ width: `${progress}%` }}></div>
+        </div>
       </div>
     </div>
   );

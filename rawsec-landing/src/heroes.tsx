@@ -102,7 +102,7 @@ export function HeroBlueprint({ L, motionLevel }: HeroProps) {
   
   return (
     <header className="hero hero-bp" ref={ref} data-screen-label="Hero — Blueprint">
-      <ParticleField density={55} motionLevel={motionLevel} />
+      <ParticleField density={130} motionLevel={motionLevel} />
       <div className="scanline-h"></div>
       <span className="coords" style={{ top: 84, left: 24 }}>{L.hero.coords}</span>
       <span className="coords" style={{ bottom: 28, right: 24 }}>RAWSEC.SOLUTIONS · v1.0</span>

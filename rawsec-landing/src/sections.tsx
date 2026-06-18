@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform, MotionValue } from 'framer-motion';
 
 // Importaciones activadas apuntando a los módulos que creamos
 import { Reveal, useCountdown, goToSection, ScrambleText } from './fx';
@@ -12,7 +12,7 @@ interface LProps {
 
 interface NavProps extends LProps {
   lang: string;
-  setLang: (lang: string) => void;
+  setLang: (lang: 'es' | 'en') => void;
 }
 
 interface SectionHeadProps {
@@ -28,13 +28,37 @@ interface ProcessProps extends LProps {
 /* ---------- logo ---------- */
 export function Logo() {
   return (
-    <a className="logo" href="#top" onClick={(e: React.MouseEvent<HTMLAnchorElement>) => { 
-      e.preventDefault(); 
-      window.scrollTo({ top: 0, behavior: 'smooth' }); 
-    }}>
-      <span>RAW</span><span className="accent">SEC</span>
-      <span className="cursor-block"></span>
-      <small>solutions</small>
+    <a
+      className="logo"
+      href="#top"
+      aria-label="RawSec Solutions — inicio"
+      onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }}
+    >
+      {/* Lockup horizontal — cristal-R + RAWSEC SOLUTIONS */}
+      <svg width="170" height="36" viewBox="0 0 430 90" fill="none">
+        <g transform="translate(8,9) scale(0.48)">
+          <path d="M60 6 L108 40 L108 110 L60 144 L12 110 L12 40 Z"
+                stroke="var(--accent)" strokeWidth="7" strokeLinejoin="miter"/>
+          <g stroke="var(--accent)" strokeWidth="13" strokeLinecap="butt" strokeLinejoin="miter">
+            <path d="M46 50 L46 104"/>
+            <path d="M46 50 L72 50 L80 58 L80 70 L72 78 L46 78"/>
+            <path d="M58 78 L80 104"/>
+          </g>
+        </g>
+        <line x1="74" y1="12" x2="74" y2="78" stroke="rgba(255,255,255,0.18)" strokeWidth="1"/>
+        <text x="88" y="57"
+              fontFamily="'Space Grotesk',system-ui,sans-serif"
+              fontWeight="700" fontSize="48" letterSpacing="-1.5">
+          <tspan fill="var(--text)">RAW</tspan><tspan fill="var(--accent)">SEC</tspan>
+        </text>
+        <text x="90" y="77"
+              fontFamily="'JetBrains Mono',monospace"
+              fontWeight="500" fontSize="12" letterSpacing="3.5"
+              fill="var(--accent)">SOLUTIONS · SpA</text>
+      </svg>
     </a>
   );
 }
@@ -87,10 +111,16 @@ export function Nav({ L, lang, setLang }: NavProps) {
 
 /* ---------- marquee strip ---------- */
 export function Strip({ L }: LProps) {
+  const [paused, setPaused] = useState(false);
   const items = [...L.strip, ...L.strip];
   return (
-    <div className="strip" aria-hidden="true">
-      <div className="strip-track">
+    <div
+      className="strip"
+      aria-hidden="true"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      <div className={`strip-track${paused ? ' paused' : ''}`}>
         {items.map((s: string, i: number) => <span key={i}>{s}</span>)}
       </div>
     </div>
@@ -109,7 +139,7 @@ export function SectionHead({ label, title, sub }: SectionHeadProps) {
 }
 
 /* ---------- services ---------- */
-const SVC_ICONS: Record<string, JSX.Element> = {
+const SVC_ICONS: Record<string, React.ReactNode> = {
   code: (
     <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="icon">
       <path d="M16 14 L8 22 L16 30"></path>
@@ -160,23 +190,99 @@ const SVC_ICONS: Record<string, JSX.Element> = {
   ),
 };
 
+/* ---------- services: animated card (scroll-driven) ---------- */
+const SVC_SCROLL_START = 0.45;
+
+function AnimatedServiceCard({
+  item, icon, index, scrollYProgress,
+}: {
+  item: any;
+  icon: React.ReactNode;
+  index: number;
+  scrollYProgress: MotionValue<number>;
+}) {
+  const start = 0.07 + index * 0.055;
+  const end = start + 0.08;
+  const opacity = useTransform(scrollYProgress, [start, end], [0, 1]);
+  const x = useTransform(scrollYProgress, [start, end], [-70, 0]);
+  return (
+    <motion.article className="svc" style={{ opacity, x }}>
+      <span className="idx">/0{index + 1}</span>
+      {icon}
+      <h3>{item.title}</h3>
+      <p>{item.desc}</p>
+      <ul>{item.li.map((l: string) => <li key={l}>{l}</li>)}</ul>
+    </motion.article>
+  );
+}
+
 export function Services({ L }: LProps) {
   const s = L.services;
+  const sectionRef = useRef<HTMLElement>(null);
+  const railRef = useRef<HTMLDivElement>(null);
+  const outerRef = useRef<HTMLDivElement>(null);
+  const scrollDistRef = useRef(0);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end end'],
+  });
+
+  useEffect(() => {
+    const calc = () => {
+      if (railRef.current && outerRef.current) {
+        scrollDistRef.current = Math.max(0, railRef.current.scrollWidth - outerRef.current.clientWidth);
+      }
+    };
+    calc();
+    const ro = new ResizeObserver(calc);
+    if (railRef.current) ro.observe(railRef.current);
+    if (outerRef.current) ro.observe(outerRef.current);
+    return () => ro.disconnect();
+  }, []);
+
+  const headOpacity = useTransform(scrollYProgress, [0, 0.09], [0, 1]);
+  const headY = useTransform(scrollYProgress, [0, 0.09], [44, 0]);
+  const subOpacity = useTransform(scrollYProgress, [0.04, 0.14], [0, 1]);
+  const subY = useTransform(scrollYProgress, [0.04, 0.14], [28, 0]);
+  const railX = useTransform(scrollYProgress, (v) => {
+    const p = Math.max(0, (v - SVC_SCROLL_START) / (1 - SVC_SCROLL_START));
+    return -p * scrollDistRef.current;
+  });
+  const progressScaleX = useTransform(scrollYProgress, [SVC_SCROLL_START, 1], [0, 1]);
+
   return (
-    <section className="block" id="servicios" data-screen-label="Servicios">
-      <div className="container">
-        <SectionHead label={s.label} title={s.title} sub={s.sub} />
-        <div className="svc-grid">
-          {s.items.map((it: any, i: number) => (
-            <Reveal as="article" key={it.title} className="svc" delay={i * 110}>
-              <span className="idx">/0{i + 1}</span>
-              {SVC_ICONS[it.icon]}
-              <h3>{it.title}</h3>
-              <p>{it.desc}</p>
-              <ul>{it.li.map((x: string) => <li key={x}>{x}</li>)}</ul>
-            </Reveal>
-          ))}
+    <section
+      ref={sectionRef}
+      className="svc-section"
+      id="servicios"
+      data-screen-label="Servicios"
+      style={{ height: '420vh' }}
+    >
+      <div className="svc-sticky">
+        <div className="container">
+          <motion.div className="svc-head-wrap" style={{ opacity: headOpacity, y: headY }}>
+            <div className="sec-label">{s.label}</div>
+            <h2 className="sec-title">{s.title}</h2>
+          </motion.div>
+          <motion.p className="sec-sub" style={{ opacity: subOpacity, y: subY }}>
+            {s.sub}
+          </motion.p>
+          <div ref={outerRef} className="svc-outer">
+            <motion.div ref={railRef} className="svc-rail" style={{ x: railX }}>
+              {s.items.map((it: any, i: number) => (
+                <AnimatedServiceCard
+                  key={it.title}
+                  item={it}
+                  icon={SVC_ICONS[it.icon]}
+                  index={i}
+                  scrollYProgress={scrollYProgress}
+                />
+              ))}
+            </motion.div>
+          </div>
         </div>
+        <motion.div className="svc-progress-bar" style={{ scaleX: progressScaleX }} />
       </div>
     </section>
   );
@@ -235,7 +341,7 @@ export function Process({ L, motionLevel }: ProcessProps) {
     // Calcular distancia en el path de cada label una sola vez al montar
     labelDists.current = LABEL_POS.map(pos => findClosestDist(ghost, pos.x, pos.y));
 
-    const TRIGGER_RADIUS = PATH_LEN / 8 * 0.35; // ventana de activacion ~35% del espacio entre labels
+
 
     let start: number | null = null;
 
@@ -429,6 +535,24 @@ export function Team({ L }: LProps) {
         </div>
       </div>
     </section>
+  );
+}
+
+/* ---------- clients marquee strip (reverse) ---------- */
+export function ClientsStrip({ items }: { items: string[] }) {
+  const [paused, setPaused] = useState(false);
+  const doubled = [...items, ...items];
+  return (
+    <div
+      className="strip clients-strip"
+      aria-hidden="true"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      <div className={`strip-track reverse${paused ? ' paused' : ''}`}>
+        {doubled.map((s: string, i: number) => <span key={i}>{s}</span>)}
+      </div>
+    </div>
   );
 }
 

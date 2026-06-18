@@ -1,4 +1,32 @@
-# React + TypeScript + Vite
+# RawSec Solutions — Landing
+
+## Sugerencias futuras
+
+### SVGs como componentes React (`vite-plugin-svgr`)
+
+Actualmente los SVGs de marca (tótem, lockup, símbolo) están inline en el TSX para que funcionen las variables CSS (`var(--accent)`). Si el logo evoluciona o se usa en muchos lugares, conviene importarlos como componentes:
+
+```bash
+npm install -D vite-plugin-svgr
+```
+
+```ts
+// vite.config.ts
+import svgr from 'vite-plugin-svgr'
+export default defineConfig({ plugins: [react(), svgr()] })
+```
+
+```tsx
+// uso
+import RawsecTotem from './assets/rawsec-totem-seal.svg?react'
+<RawsecTotem stroke="var(--accent)" />
+```
+
+Ventaja: el diseñador edita el `.svg` y el cambio se propaga sin tocar TSX.
+
+---
+
+# React + TypeScript + Vite (template original)
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
