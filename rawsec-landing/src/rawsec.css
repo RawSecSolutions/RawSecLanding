@@ -231,7 +231,8 @@ body.motion-min .strip-track { animation: none; }
   -webkit-mask-image: linear-gradient(to right, transparent 0px, black 36px, black calc(100% - 36px), transparent 100%);
   mask-image: linear-gradient(to right, transparent 0px, black 36px, black calc(100% - 36px), transparent 100%);
 }
-.svc-rail { display: flex; gap: 18px; will-change: transform; padding-right: 48px; }
+.svc-rail { display: flex; gap: 18px; will-change: transform; }
+.svc-rail-end { flex-shrink: 0; width: 64px; }
 .svc-progress-bar {
   position: absolute;
   bottom: 0; left: 0; right: 0;

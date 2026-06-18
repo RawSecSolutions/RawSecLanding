@@ -188,6 +188,44 @@ const SVC_ICONS: Record<string, React.ReactNode> = {
       <path d="M6 30 L22 38 L38 30"></path>
     </svg>
   ),
+  arch: (
+    <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="icon">
+      <rect x="15" y="6" width="14" height="8" rx="1.5"></rect>
+      <rect x="4" y="30" width="13" height="8" rx="1.5"></rect>
+      <rect x="27" y="30" width="13" height="8" rx="1.5"></rect>
+      <path d="M22 14 L10.5 30"></path>
+      <path d="M22 14 L33.5 30"></path>
+      <path d="M17 30 H27"></path>
+    </svg>
+  ),
+  database: (
+    <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="icon">
+      <ellipse cx="22" cy="11" rx="13" ry="4"></ellipse>
+      <path d="M9 11 V33"></path>
+      <path d="M35 11 V33"></path>
+      <ellipse cx="22" cy="33" rx="13" ry="4"></ellipse>
+      <path d="M9 19 C9 22.5 35 22.5 35 19"></path>
+      <path d="M9 26 C9 29.5 35 29.5 35 26"></path>
+    </svg>
+  ),
+  network: (
+    <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="icon">
+      <rect x="7" y="17" width="30" height="11" rx="2"></rect>
+      <path d="M14 17 V10 M22 17 V10 M30 17 V10"></path>
+      <path d="M13 28 V35 M31 28 V35"></path>
+      <circle cx="14" cy="22.5" r="1.5" fill="currentColor" stroke="none"></circle>
+      <circle cx="22" cy="22.5" r="1.5" fill="currentColor" stroke="none"></circle>
+      <circle cx="30" cy="22.5" r="1.5" fill="currentColor" stroke="none"></circle>
+    </svg>
+  ),
+  cloud: (
+    <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="icon">
+      <path d="M13 33 C8 33 5 29.5 5 25.5 C5 21 8.5 18 13 19 C14 14 18 11 23 11 C29 11 33.5 15.5 33.5 21 C37 21 40 23.5 40 27 C40 30 37.5 33 34 33 Z"></path>
+      <rect x="17" y="27" width="10" height="7" rx="1.5"></rect>
+      <path d="M19.5 27 V24.5 A2.5 2.5 0 0 1 24.5 24.5 V27"></path>
+      <circle cx="22" cy="30.5" r="1.2" fill="currentColor" stroke="none"></circle>
+    </svg>
+  ),
 };
 
 /* ---------- services: animated card (scroll-driven) ---------- */
@@ -259,7 +297,7 @@ export function Services({ L }: LProps) {
       className="svc-section"
       id="servicios"
       data-screen-label="Servicios"
-      style={{ height: '500vh' }}
+      style={{ height: '620vh' }}
     >
       <div className="svc-sticky">
         <div className="container">
@@ -281,6 +319,7 @@ export function Services({ L }: LProps) {
                   scrollYProgress={scrollYProgress}
                 />
               ))}
+              <div className="svc-rail-end" aria-hidden="true" />
             </motion.div>
           </div>
         </div>
