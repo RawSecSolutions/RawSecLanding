@@ -426,7 +426,11 @@ export function LoadScreen() {
 
     const hide = () => {
       const wait = Math.max(700, 2200 - (Date.now() - t0));
-      setTimeout(() => { setOut(true); setTimeout(() => setHidden(true), 650); }, wait);
+      setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+        setOut(true);
+        setTimeout(() => setHidden(true), 650);
+      }, wait);
     };
 
     // Guard: fuerza fase final si algo tarda demasiado
@@ -454,15 +458,6 @@ export function LoadScreen() {
 
     return () => clearTimeout(guard);
   }, []);
-
-  // Cuando el LoadScreen se oculta, los fonts ya cargaron y el layout es estable.
-  // Disparar resize fuerza a framer-motion a recalcular los scroll offsets de todas
-  // las secciones (que pudieron haber cambiado de posición por el reflow de fonts).
-  useEffect(() => {
-    if (hidden) {
-      requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
-    }
-  }, [hidden]);
 
   if (hidden) return null;
 

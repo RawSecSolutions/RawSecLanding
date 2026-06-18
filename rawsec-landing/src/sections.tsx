@@ -225,7 +225,9 @@ export function Services({ L }: LProps) {
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ['start start', 'end end'],
+    // Valores numéricos deshabilitan CSS View Timeline (que falla en secciones >100vh).
+    // Matemáticamente idéntico a ['start start', 'end end'] en el path JS.
+    offset: [0, 1],
   });
 
   useEffect(() => {
