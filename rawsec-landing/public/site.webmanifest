@@ -1,0 +1,37 @@
+{
+  "name": "RawSec Solutions — Software a Medida & Ciberseguridad",
+  "short_name": "RawSec",
+  "description": "Empresa de desarrollo de software y ciberseguridad en Santiago, Chile.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "lang": "es-CL",
+  "dir": "ltr",
+  "orientation": "any",
+  "categories": ["technology", "business", "security", "software"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Servicios",
+      "short_name": "Servicios",
+      "description": "Ver servicios de desarrollo y ciberseguridad",
+      "url": "/#servicios",
+      "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "Contacto",
+      "short_name": "Contacto",
+      "description": "Contactar a RawSec Solutions",
+      "url": "/#contacto",
+      "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
+    }
+  ]
+}

@@ -259,7 +259,7 @@ export function Services({ L }: LProps) {
       className="svc-section"
       id="servicios"
       data-screen-label="Servicios"
-      style={{ height: '420vh' }}
+      style={{ height: '500vh' }}
     >
       <div className="svc-sticky">
         <div className="container">

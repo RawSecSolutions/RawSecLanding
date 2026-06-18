@@ -1,0 +1,33 @@
+# robots.txt — RawSec Solutions
+# Permite indexación completa en todos los motores de búsqueda
+
+# Google
+User-agent: Googlebot
+Allow: /
+
+# Bing / DuckDuckGo / Yahoo (todos usan Bingbot)
+User-agent: Bingbot
+Allow: /
+
+# DuckDuckGo
+User-agent: DuckDuckBot
+Allow: /
+
+# Yahoo Slurp
+User-agent: Slurp
+Allow: /
+
+# Yandex
+User-agent: YandexBot
+Allow: /
+
+# Baidu
+User-agent: Baiduspider
+Allow: /
+
+# General (todos los demás)
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://rawsec.solutions/sitemap.xml

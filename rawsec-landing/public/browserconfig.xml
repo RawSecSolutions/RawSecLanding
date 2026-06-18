@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- browserconfig.xml — Microsoft Edge / Internet Explorer / Windows pinned sites -->
+<browserconfig>
+  <msapplication>
+    <tile>
+      <square70x70logo src="/favicon.svg"/>
+      <square150x150logo src="/favicon.svg"/>
+      <wide310x150logo src="/favicon.svg"/>
+      <square310x310logo src="/favicon.svg"/>
+      <TileColor>#000000</TileColor>
+    </tile>
+    <notification>
+      <polling-uri src="https://rawsec.solutions/"/>
+      <frequency>30</frequency>
+      <cycle>1</cycle>
+    </notification>
+  </msapplication>
+</browserconfig>
