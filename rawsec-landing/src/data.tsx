@@ -106,7 +106,7 @@ export const RAWSEC_DATA = {
       { q: 'Automatizaron el flujo entre nuestro software de gestión y el SII, además de estructurar dos años de datos contables con claridad. Trabajo riguroso y de alto impacto.', who: 'Gerencia', org: 'Inmobiliaria Dominga Norte · La Serena' },
       { q: 'Registraron el dominio corporativo y configuraron cada usuario con sus permisos específicos. Todo el equipo quedó centralizado, controlado y sin accesos de más.', who: 'CEO & Founder', org: 'Minox' },
     ],
-    clientsStrip: ['KikiBrows · LMS & e-commerce', 'Mar y Cielo · Inmobiliaria', 'Landing Portafolio Psicológia · La Serena', 'Dominga Norte · Finanzas', 'Minox · Infraestructura TI'],
+    clientsStrip: ['KikiBrows · LMS & e-commerce', 'Mar y Cielo · Inmobiliaria', 'Landing Portafolio Psicológia · La Serena', 'Dominga Norte · Finanzas', 'Minox · Control de accesos & dominio'],
   },
   contact: {
     label: '06 — contacto', title: '¿Conversamos?',
