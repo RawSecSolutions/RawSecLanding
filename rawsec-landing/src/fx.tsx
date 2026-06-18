@@ -107,7 +107,7 @@ export function ParticleField({ density = 60, motionLevel = 'max' }: ParticleFie
     if (!ctx) return;
 
     let raf: number, w: number, h: number, dpr: number;
-    let nodes: Array<{ x: number, y: number, vx: number, vy: number, r: number }> = [];
+    let nodes: Array<{ x: number, y: number, vx: number, vy: number, bvx: number, bvy: number, r: number }> = [];
     let running = true;
     
     const mouse = { x: -9999, y: -9999 };
@@ -124,11 +124,10 @@ export function ParticleField({ density = 60, motionLevel = 'max' }: ParticleFie
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
       
       const count = Math.min(240, Math.round((w * h) / 13000 * (density / 60)));
-      nodes = Array.from({ length: Math.max(14, count) }, () => ({
-        x: Math.random() * w, y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.5, vy: (Math.random() - 0.5) * 0.5,
-        r: Math.random() * 1.6 + 0.7,
-      }));
+      nodes = Array.from({ length: Math.max(14, count) }, () => {
+        const bvx = (Math.random() - 0.5) * 0.5, bvy = (Math.random() - 0.5) * 0.5;
+        return { x: Math.random() * w, y: Math.random() * h, vx: bvx, vy: bvy, bvx, bvy, r: Math.random() * 1.6 + 0.7 };
+      });
     }
 
     let firstFrame = true;
@@ -142,7 +141,14 @@ export function ParticleField({ density = 60, motionLevel = 'max' }: ParticleFie
         if (speed > 0) {
           n.x += n.vx * speed; n.y += n.vy * speed;
           const dx = n.x - mouse.x, dy = n.y - mouse.y, d2 = dx * dx + dy * dy;
-          if (d2 < 25600) { n.x += dx / Math.sqrt(d2 + 1) * 2.4; n.y += dy / Math.sqrt(d2 + 1) * 2.4; }
+          if (d2 < 25600) {
+            const d = Math.sqrt(d2 + 1);
+            n.vx += (dx / d) * 0.35; n.vy += (dy / d) * 0.35;
+          }
+          // spring return to natural drift velocity — prevents runaway and vibration
+          n.vx += (n.bvx - n.vx) * 0.02; n.vy += (n.bvy - n.vy) * 0.02;
+          const spd = Math.hypot(n.vx, n.vy);
+          if (spd > 3.5) { n.vx = (n.vx / spd) * 3.5; n.vy = (n.vy / spd) * 3.5; }
           if (n.x < -20) n.x = w + 20; if (n.x > w + 20) n.x = -20;
           if (n.y < -20) n.y = h + 20; if (n.y > h + 20) n.y = -20;
         }

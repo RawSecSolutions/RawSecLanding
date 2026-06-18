@@ -223,6 +223,7 @@ body.motion-min .strip-track { animation: none; }
   flex-direction: column;
   justify-content: center;
   padding: 36px 0 48px;
+  will-change: transform;
 }
 .svc-head-wrap { margin-bottom: 10px; }
 .svc-outer {
@@ -249,6 +250,7 @@ body.motion-min .strip-track { animation: none; }
   transition: border-color .35s, box-shadow .35s;
   position: relative; overflow: hidden;
   width: 340px; flex-shrink: 0;
+  will-change: transform, opacity;
 }
 @media (max-width: 860px) { .svc { width: 290px; } }
 @media (max-width: 480px) { .svc { width: min(310px, 82vw); } }
