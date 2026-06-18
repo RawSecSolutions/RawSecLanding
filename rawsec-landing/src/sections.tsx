@@ -10,10 +10,7 @@ interface LProps {
   L: any;
 }
 
-interface NavProps extends LProps {
-  lang: string;
-  setLang: (lang: 'es' | 'en') => void;
-}
+type NavProps = LProps;
 
 interface SectionHeadProps {
   label: string;
@@ -64,13 +61,16 @@ export function Logo() {
 }
 
 /* ---------- nav ---------- */
-export function Nav({ L, lang, setLang }: NavProps) {
+export function Nav({ L }: NavProps) {
   const [open, setOpen] = useState<boolean>(false);
   
-  const go = (id: string) => (e: React.MouseEvent<HTMLAnchorElement>) => { 
-    e.preventDefault(); 
-    setOpen(false); 
-    goToSection(id);
+  const go = (id: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setOpen(false);
+    // servicios = 620vh → rango scrollable = (6.2-1)×vh = 5.2×innerHeight
+    // para progress 0.15 (animaciones completadas): 0.15×5.2 = 0.78×innerHeight
+    const extra = id === 'servicios' ? Math.round(0.78 * window.innerHeight) : 0;
+    goToSection(id, extra);
   };
 
   return (
@@ -82,10 +82,6 @@ export function Nav({ L, lang, setLang }: NavProps) {
             {L.nav.links.map((l: any) => <a key={l.id} href={`#${l.id}`} onClick={go(l.id)}>{l.label}</a>)}
           </div>
           <div className="nav-right">
-            <div className="lang-toggle" role="group" aria-label="Idioma">
-              <button className={lang === 'es' ? 'on' : ''} onClick={() => setLang('es')}>ES</button>
-              <button className={lang === 'en' ? 'on' : ''} onClick={() => setLang('en')}>EN</button>
-            </div>
             <a className="btn btn-primary nav-cta" href={`mailto:${RAWSEC_EMAIL}?subject=${encodeURIComponent(L.contact.mailSubject)}`}>{L.nav.cta}</a>
             <button className="burger" aria-label="Menú" onClick={() => setOpen(!open)}>
               <svg width="18" height="14" viewBox="0 0 18 14" fill="none" stroke="currentColor" strokeWidth="1.6">
