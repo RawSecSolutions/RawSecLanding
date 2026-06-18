@@ -203,8 +203,8 @@ function AnimatedServiceCard({
 }) {
   const start = 0.07 + index * 0.055;
   const end = start + 0.08;
-  const opacity = useTransform(scrollYProgress, [start, end], [0, 1]);
-  const x = useTransform(scrollYProgress, [start, end], [-70, 0]);
+  const opacity = useTransform(scrollYProgress, [start, end], [0, 1], { clamp: true });
+  const x = useTransform(scrollYProgress, [start, end], [-70, 0], { clamp: true });
   return (
     <motion.article className="svc" style={{ opacity, x }}>
       <span className="idx">/0{index + 1}</span>
@@ -241,10 +241,10 @@ export function Services({ L }: LProps) {
     return () => ro.disconnect();
   }, []);
 
-  const headOpacity = useTransform(scrollYProgress, [0, 0.09], [0, 1]);
-  const headY = useTransform(scrollYProgress, [0, 0.09], [44, 0]);
-  const subOpacity = useTransform(scrollYProgress, [0.04, 0.14], [0, 1]);
-  const subY = useTransform(scrollYProgress, [0.04, 0.14], [28, 0]);
+  const headOpacity = useTransform(scrollYProgress, [0, 0.09], [0, 1], { clamp: true });
+  const headY = useTransform(scrollYProgress, [0, 0.09], [44, 0], { clamp: true });
+  const subOpacity = useTransform(scrollYProgress, [0.04, 0.14], [0, 1], { clamp: true });
+  const subY = useTransform(scrollYProgress, [0.04, 0.14], [28, 0], { clamp: true });
   const railX = useTransform(scrollYProgress, (v) => {
     const p = Math.max(0, (v - SVC_SCROLL_START) / (1 - SVC_SCROLL_START));
     return -p * scrollDistRef.current;
