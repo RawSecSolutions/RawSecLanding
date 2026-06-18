@@ -14,7 +14,7 @@ export const RAWSEC_DATA = {
     h1c: ['Construido a medida.', 'Blindado por diseño.'],
     sub: 'Desarrollo full-stack y auditorías de ciberseguridad bajo un mismo equipo. Construimos tu plataforma y la blindamos — sin dejar la seguridad para el final.',
     cta1: 'Agendar reunión', cta2: 'Ver servicios',
-    badges: ['eJPT', 'eWPTX · en curso', 'CCNA', 'AWS Cloud Practitioner'],
+    badges: ['eJPT', 'eWPTX', 'CCNA', 'AWS Cloud Practitioner'],
     term: [
       { t: 'cmd', s: 'rawsec init --cliente "tu-empresa.cl"' },
       { t: 'ok', s: '✓ stack: next.js + postgresql' },
@@ -90,12 +90,12 @@ export const RAWSEC_DATA = {
     label: '04 — equipo', title: 'Los fundadores.',
     sub: 'Un perfil construye, el otro ataca. Juntos cubren el ciclo completo.',
     members: [
-      { ini: 'EC', name: 'Emilio Castillo', role: 'Co-fundador · Tech Lead',
+      { ini: 'EC', name: 'Emilio Castillo Schmidt', role: 'Co-fundador · Tech Lead',
         bio: 'Arquitectura y desarrollo full-stack. Estudiante de Ingeniería Civil Informática (UNAB). Lidera la construcción de cada plataforma: del diseño del sistema al despliegue.',
         chips: ['Next.js / Node.js', 'PostgreSQL / Supabase', 'Docker / Linux', 'IA aplicada'], certs: [] },
-      { ini: 'CR', name: 'Cristóbal', role: 'Co-fundador · Security Lead',
-        bio: 'Especialista en seguridad ofensiva y defensiva. Consultorías de seguridad y protección de la información en el rubro minero.',
-        chips: [], certs: ['eJPT', 'eWPTX · en curso', 'CCNA', 'AWS Cloud Practitioner'] },
+      { ini: 'CR', name: 'Cristóbal Aracena García', role: 'Co-fundador · Security Lead',
+        bio: 'Especialista en seguridad ofensiva y defensiva. Estudiante de Bachelor in Computer Science. Consultorías de seguridad y protección de la información en el rubro minero.',
+        chips: [], certs: ['eJPT', 'eWPTX', 'CCNA', 'AWS Cloud Practitioner'] },
     ],
   },
   quotes: {
