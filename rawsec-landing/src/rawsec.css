@@ -360,7 +360,7 @@ body.motion-min .loop-svg text.loop-label { opacity: 1; }
 
 /* ============ testimonials ============ */
 .quotes-grid { display: grid; gap: 18px; }
-@media (min-width: 860px) { .quotes-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 600px) { .quotes-grid { grid-template-columns: repeat(2, 1fr); } }
 .quote { border: 1px solid var(--line); border-radius: 10px; padding: 28px 24px; display: flex; flex-direction: column; gap: 18px; background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent); }
 .quote .qmark { font-family: var(--font-mono); font-size: 30px; color: var(--accent); line-height: 1; }
 .quote p { font-size: 15px; color: var(--text); flex: 1; }

@@ -104,7 +104,7 @@ export const RAWSEC_DATA = {
       { q: 'La experiencia 360° cambió la forma en que mostramos los terrenos. Los clientes recorren el proyecto sin moverse de su casa.', who: 'Equipo comercial', org: 'Mar y Cielo · inmobiliaria' },
       { q: 'Necesitaba presencia digital profesional y el resultado fue impecable, en tiempo y forma.', who: 'Psicóloga clínica', org: 'Consulta privada · Santiago' },
       { q: 'Automatizaron el flujo entre nuestro software de gestión y el SII, además de estructurar dos años de datos contables con claridad. Trabajo riguroso y de alto impacto.', who: 'Gerencia', org: 'Inmobiliaria Dominga Norte · La Serena' },
-      { q: 'Registraron el dominio corporativo y configuraron cada usuario con sus permisos específicos. Todo el equipo quedó centralizado, controlado y sin accesos de más.', who: 'Administración TI', org: 'Minox' },
+      { q: 'Registraron el dominio corporativo y configuraron cada usuario con sus permisos específicos. Todo el equipo quedó centralizado, controlado y sin accesos de más.', who: 'CEO & Founder', org: 'Minox' },
     ],
     clientsStrip: ['KikiBrows · LMS & e-commerce', 'Mar y Cielo · Inmobiliaria', 'Landing Portafolio Psicológia · La Serena', 'Dominga Norte · Finanzas', 'Minox · Infraestructura TI'],
   },
