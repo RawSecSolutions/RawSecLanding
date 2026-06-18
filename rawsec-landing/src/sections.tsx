@@ -67,9 +67,9 @@ export function Nav({ L }: NavProps) {
   const go = (id: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     setOpen(false);
-    // servicios = 620vh → rango scrollable = (6.2-1)×vh = 5.2×innerHeight
-    // para progress 0.15 (animaciones completadas): 0.15×5.2 = 0.78×innerHeight
-    const extra = id === 'servicios' ? Math.round(0.78 * window.innerHeight) : 0;
+    // servicios = 450vh → rango scrollable = (4.5-1)×vh = 3.5×innerHeight
+    // landing en SVC_SCROLL_START (0.15): 0.15×3.5 = 0.525×innerHeight
+    const extra = id === 'servicios' ? Math.round(SVC_SCROLL_START * 3.5 * window.innerHeight) : 0;
     goToSection(id, extra);
   };
 
@@ -225,7 +225,7 @@ const SVC_ICONS: Record<string, React.ReactNode> = {
 };
 
 /* ---------- services: animated card (scroll-driven) ---------- */
-const SVC_SCROLL_START = 0.45;
+const SVC_SCROLL_START = 0.15;
 
 function AnimatedServiceCard({
   item, icon, index, scrollYProgress,
@@ -293,7 +293,7 @@ export function Services({ L }: LProps) {
       className="svc-section"
       id="servicios"
       data-screen-label="Servicios"
-      style={{ height: '620vh' }}
+      style={{ height: '450vh' }}
     >
       <div className="svc-sticky">
         <div className="container">
