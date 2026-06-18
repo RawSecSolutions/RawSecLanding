@@ -455,6 +455,15 @@ export function LoadScreen() {
     return () => clearTimeout(guard);
   }, []);
 
+  // Cuando el LoadScreen se oculta, los fonts ya cargaron y el layout es estable.
+  // Disparar resize fuerza a framer-motion a recalcular los scroll offsets de todas
+  // las secciones (que pudieron haber cambiado de posición por el reflow de fonts).
+  useEffect(() => {
+    if (hidden) {
+      requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
+    }
+  }, [hidden]);
+
   if (hidden) return null;
 
   // Progreso proporcional: N señales + fase final = N+1 pasos
