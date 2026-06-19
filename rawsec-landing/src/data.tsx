@@ -1,12 +1,12 @@
 // RawSeccopy
 export const RAWSEC_DATA = {
   nav: { links: [
-    { id: 'herramienta', label: 'Herramienta' },
+    { id: 'equipo', label: 'Perfiles' },
+    { id: 'proyectos', label: 'Proyectos' },
     { id: 'proceso', label: 'DevSecOps' },
     { id: 'servicios', label: 'Servicios' },
-    { id: 'clientes', label: 'Experiencias' },
-    { id: 'contacto', label: 'Contactar' },
-    { id: 'equipo', label: 'Equipo' },
+    { id: 'herramientas', label: 'Herramientas' },
+    { id: 'contacto', label: 'Contacto' },
   ], cta: 'Agendar reunión' },
   hero: {
     eyebrow: 'Empresa de software & ciberseguridad · Santiago, Chile',
@@ -14,7 +14,7 @@ export const RAWSEC_DATA = {
     h1b: 'Seguridad y desarrollo sin concesiones.',
     h1c: ['Construido a medida.', 'Blindado por diseño.'],
     sub: 'Desarrollamos software a medida y realizamos pentesting y auditorías de seguridad certificadas. Un mismo equipo para construir y proteger, de principio a fin.',
-    cta1: 'Agendar reunión', cta2: 'Ver experiencias',
+    cta1: 'Agendar reunión', cta2: 'Ver proyectos',
     badges: ['eJPT', 'eWPTX', 'CCNA', 'AWS Cloud Practitioner'],
     term: [
       { t: 'cmd', s: 'rawsec init --cliente "tu-empresa.cl"' },
@@ -29,7 +29,7 @@ export const RAWSEC_DATA = {
   },
   strip: ['Desarrollo full-stack', 'Pentesting certificado', 'Ley 21.719 · Chile', 'Arquitectura cloud', 'Hardening de redes', 'Automatización', 'Machine Learning', 'Agentes RAG', 'LLMs', 'Visión computacional', 'Red Team', 'Forense digital', 'CCNA · Redes', 'AWS Security', 'Sistemas ISP', 'Pasarelas de pago', 'Dashboards financieros', 'Arquitectura de software', 'Diseño de bases de datos', 'Diagramas UML', 'Modelado relacional', 'Microservicios', 'Hardening de servidores', 'Seguridad AWS', 'Firewall & ACLs', 'Segmentación de redes', 'IAM & VPC'],
   services: {
-    label: '03 — servicios', title: 'Dos especialidades. Un equipo.',
+    label: '05 — Servicios', title: 'Dos especialidades. Un equipo.',
     sub: 'Un perfil construye la plataforma. El otro la ataca y la asegura. Desarrollo y seguridad en paralelo, no como etapas separadas.',
     items: [
       { icon: 'code', title: 'Desarrollo de software a medida',
@@ -41,7 +41,7 @@ export const RAWSEC_DATA = {
     ],
   },
   process: {
-    label: '02 — devsecops', title: 'Seguridad en cada vuelta.',
+    label: '04 — DevSecOps', title: 'Seguridad en cada vuelta.',
     sub: 'Nuestro ciclo integra seguridad en las 8 fases del desarrollono como auditoría final, sino como parte del flujo.',
     steps: [
       { n: 'Planificar', d: 'Modelado de amenazas desde el diseño' },
@@ -55,7 +55,7 @@ export const RAWSEC_DATA = {
     ],
   },
   project: {
-    label: '01 — herramienta', tag: 'En desarrollo · acceso anticipado',
+    label: '06 — Herramientas I+D', tag: 'En desarrollo · acceso anticipado',
     title: 'Cumplimiento Ley 21.719, automatizado.',
     desc: 'Estamos construyendo un agente de cumplimiento que evalúa, documenta y monitorea la adecuación de tu empresa a la nueva ley chilena de protección de datos personalescon tus datos siempre en tu infraestructura.',
     points: ['Datos 100% locales: nada sale de tu empresa', 'Evidencia y reportes auditables', 'Monitoreo continuo de brechas normativas'],
@@ -64,7 +64,7 @@ export const RAWSEC_DATA = {
     cdUnits: ['días', 'horas', 'min'],
   },
   team: {
-    label: '06 — equipo', title: 'Los fundadores.',
+    label: '01 — Perfiles', title: 'Los fundadores.',
     sub: 'Un perfil construye, el otro ataca. Juntos cubren el ciclo completo.',
     members: [
       { ini: 'EC', name: 'Emilio Castillo Schmidt', role: 'Co-fundador · Tech Lead',
@@ -76,7 +76,7 @@ export const RAWSEC_DATA = {
     ],
   },
   quotes: {
-    label: '04 — experiencias', title: 'Lo que hemos hecho.',
+    label: '02 — Proyectos', title: 'Lo que hemos hecho.',
     sub: 'Proyectos reales con clientes reales.',
     cases: [
       { client: 'KikiBrows', type: 'LMS & e-commerce',
@@ -103,19 +103,19 @@ export const RAWSEC_DATA = {
     clientsStrip: ['KikiBrows · LMS & e-commerce', 'Mar y Cielo · Inmobiliaria', 'Consulta privada · La Serena', 'Dominga Norte · Finanzas', 'Minox · Control de accesos & dominio'],
   },
   ecosystem: {
-    label: '— ecosistema RawSec',
+    label: '07 — Ecosistema RawSec',
     title: 'Más de la marca.',
     items: [
       { name: 'Herramienta Ley 21.719', tag: 'Acceso anticipado',
         desc: 'Agente de cumplimiento normativo para empresas chilenas. Evalúa, documenta y monitorea tu adecuación a la nueva ley de protección de datos.',
-        href: '#herramienta', cta: 'Ver herramienta', external: false },
+        href: '#herramientas', cta: 'Ver herramienta', external: false },
       { name: 'RawClases', tag: 'Próximamente',
         desc: 'LMS escalable para venta como SaaSconstruido sobre la experiencia de KikiBrows y listo para cualquier tipo de academia o curso online.',
         href: null, cta: 'Próximamente', external: false },
     ],
   },
   contact: {
-    label: '05 — contacto', title: '¿Conversamos?',
+    label: '08 — Contacto', title: '¿Conversamos?',
     sub: 'Cuéntanos qué necesitas construiro qué necesitas proteger. Respondemos dentro de 24 horas.',
     cta1: 'Agendar reunión', copied: '✓ copiado',
     mailSubject: 'ReuniónRawSec Solutions',

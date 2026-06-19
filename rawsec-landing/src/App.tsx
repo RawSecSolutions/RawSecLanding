@@ -39,14 +39,14 @@ export default function App() {
       <HeroBlueprint L={L} motionLevel={motionLevel} />
       <Strip L={L} />
       <main>
-        <FeaturedProject L={L} />
-        <Process L={L} motionLevel={motionLevel} />
-        <Services L={L} />
+        <Team L={L} />
         <Quotes L={L} />
         <ClientsStrip items={L.quotes.clientsStrip || []} />
-        <Contact L={L} />
-        <Team L={L} />
+        <Process L={L} motionLevel={motionLevel} />
+        <Services L={L} />
+        <FeaturedProject L={L} />
         <Ecosystem L={L} />
+        <Contact L={L} />
       </main>
       <Footer L={L} />
     </>

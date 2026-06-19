@@ -26,7 +26,7 @@ export function HeroCtas({ L }: LProps) {
       </a>
       <a className="btn btn-ghost" href="#clientes" onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
-        goToSection('clientes');
+        goToSection('proyectos');
       }}>
         {L.hero.cta2}
       </a>

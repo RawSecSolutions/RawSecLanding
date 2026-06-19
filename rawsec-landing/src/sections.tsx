@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, useScroll, useTransform, MotionValue, animate, hover, press } from 'framer-motion';
+import { animate, hover, press } from 'framer-motion';
 
 // Importaciones activadas apuntando a los módulos que creamos
 import { Reveal, useCountdown, goToSection } from './fx';
@@ -67,9 +67,7 @@ export function Nav({ L }: NavProps) {
   const go = (id: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     setOpen(false);
-    // servicios usa sticky 150vh → scrollable = 0.5×vh; 0.30×0.5 = 0.15×vh para llegar donde las tarjetas son visibles
-    const extra = id === 'servicios' ? Math.round(0.15 * window.innerHeight) : 0;
-    goToSection(id, extra);
+    goToSection(id);
   };
 
   return (
@@ -223,102 +221,23 @@ const SVC_ICONS: Record<string, React.ReactNode> = {
   ),
 };
 
-/* ---------- services: animated card (scroll-driven) ---------- */
-const SVC_SCROLL_START = 0.15;
-
-function AnimatedServiceCard({
-  item, icon, index, scrollYProgress,
-}: {
-  item: any;
-  icon: React.ReactNode;
-  index: number;
-  scrollYProgress: MotionValue<number>;
-}) {
-  const start = 0.10 + index * 0.10;
-  const end = start + 0.18;
-  const opacity = useTransform(scrollYProgress, [start, end], [0, 1], { clamp: true });
-  const x = useTransform(scrollYProgress, [start, end], [-50, 0], { clamp: true });
-  return (
-    <motion.article className="svc" style={{ opacity, x }}>
-      <span className="idx">/0{index + 1}</span>
-      {icon}
-      <h3>{item.title}</h3>
-      <p>{item.desc}</p>
-      <ul>{item.li.map((l: string) => <li key={l}>{l}</li>)}</ul>
-    </motion.article>
-  );
-}
-
 export function Services({ L }: LProps) {
   const s = L.services;
-  const sectionRef = useRef<HTMLElement>(null);
-  const railRef = useRef<HTMLDivElement>(null);
-  const outerRef = useRef<HTMLDivElement>(null);
-  const scrollDistRef = useRef(0);
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    // Valores numéricos deshabilitan CSS View Timeline (que falla en secciones >100vh).
-    // Matemáticamente idéntico a ['start start', 'end end'] en el path JS.
-    offset: [0, 1],
-  });
-
-  useEffect(() => {
-    const calc = () => {
-      if (railRef.current && outerRef.current) {
-        scrollDistRef.current = Math.max(0, railRef.current.scrollWidth - outerRef.current.clientWidth);
-      }
-    };
-    calc();
-    const ro = new ResizeObserver(calc);
-    if (railRef.current) ro.observe(railRef.current);
-    if (outerRef.current) ro.observe(outerRef.current);
-    return () => ro.disconnect();
-  }, []);
-
-  const headOpacity = useTransform(scrollYProgress, [0, 0.08], [0, 1], { clamp: true });
-  const headY = useTransform(scrollYProgress, [0, 0.08], [30, 0], { clamp: true });
-  const subOpacity = useTransform(scrollYProgress, [0.04, 0.15], [0, 1], { clamp: true });
-  const subY = useTransform(scrollYProgress, [0.04, 0.15], [20, 0], { clamp: true });
-  const railX = useTransform(scrollYProgress, (v) => {
-    const p = Math.max(0, (v - SVC_SCROLL_START) / (1 - SVC_SCROLL_START));
-    return -p * scrollDistRef.current;
-  });
-  const progressScaleX = useTransform(scrollYProgress, [SVC_SCROLL_START, 1], [0, 1]);
-
   return (
-    <section
-      ref={sectionRef}
-      className="svc-section"
-      id="servicios"
-      data-screen-label="Servicios"
-      style={{ height: '150vh' }}
-    >
-      <div className="svc-sticky">
-        <div className="container">
-          <motion.div className="svc-head-wrap" style={{ opacity: headOpacity, y: headY }}>
-            <div className="sec-label">{s.label}</div>
-            <h2 className="sec-title">{s.title}</h2>
-          </motion.div>
-          <motion.p className="sec-sub" style={{ opacity: subOpacity, y: subY }}>
-            {s.sub}
-          </motion.p>
-          <div ref={outerRef} className="svc-outer">
-            <motion.div ref={railRef} className="svc-rail" style={{ x: railX }}>
-              {s.items.map((it: any, i: number) => (
-                <AnimatedServiceCard
-                  key={it.title}
-                  item={it}
-                  icon={SVC_ICONS[it.icon]}
-                  index={i}
-                  scrollYProgress={scrollYProgress}
-                />
-              ))}
-              <div className="svc-rail-end" aria-hidden="true" />
-            </motion.div>
-          </div>
+    <section className="block" id="servicios" data-screen-label="Servicios">
+      <div className="container">
+        <SectionHead label={s.label} title={s.title} sub={s.sub} />
+        <div className="svc-grid">
+          {s.items.map((it: any, i: number) => (
+            <Reveal key={it.title} as="article" className="svc" delay={i * 120}>
+              <span className="idx">/0{i + 1}</span>
+              {SVC_ICONS[it.icon]}
+              <h3>{it.title}</h3>
+              <p>{it.desc}</p>
+              <ul>{it.li.map((l: string) => <li key={l}>{l}</li>)}</ul>
+            </Reveal>
+          ))}
         </div>
-        <motion.div className="svc-progress-bar" style={{ scaleX: progressScaleX }} />
       </div>
     </section>
   );
@@ -548,7 +467,7 @@ export function FeaturedProject({ L }: LProps) {
   const cd = useCountdown('2026-12-01T00:00:00-03:00');
   
   return (
-    <section className="block" id="herramienta" data-screen-label="Herramienta I+D">
+    <section className="block" id="herramientas" data-screen-label="Herramientas I+D">
       <div className="container">
         <SectionHead label={s.label} title="" />
         <Reveal as="article" className="proj">
@@ -629,7 +548,7 @@ export function ClientsStrip({ items }: { items: string[] }) {
 export function Quotes({ L }: LProps) {
   const s = L.quotes;
   return (
-    <section className="block" id="clientes" data-screen-label="Experiencias">
+    <section className="block" id="proyectos" data-screen-label="Proyectos">
       <div className="container">
         <SectionHead label={s.label} title={s.title} sub={s.sub} />
         <div className="cases-grid">
@@ -644,7 +563,7 @@ export function Quotes({ L }: LProps) {
               {c.link && (
                 c.link.external
                   ? <a className="case-cta" href={c.link.href} target="_blank" rel="noopener noreferrer">{c.link.label} →</a>
-                  : <button className="case-cta" onClick={() => goToSection('contacto')}>{c.link.label} →</button>
+                  : <button className="case-cta" onClick={() => goToSection('contacto')} type="button">{c.link.label} →</button>
               )}
             </Reveal>
           ))}
@@ -690,7 +609,7 @@ export function Contact({ L }: LProps) {
 export function Ecosystem({ L }: LProps) {
   const s = L.ecosystem;
   return (
-    <section className="block ecosystem" data-screen-label="Ecosistema RawSec">
+    <section className="block" id="ecosistema" data-screen-label="Ecosistema RawSec">
       <div className="container">
         <SectionHead label={s.label} title={s.title} />
         <div className="eco-grid">
@@ -700,7 +619,7 @@ export function Ecosystem({ L }: LProps) {
               <h4 className="eco-name">{item.name}</h4>
               <p className="eco-desc">{item.desc}</p>
               {item.href
-                ? <a className="eco-cta" href={item.href} onClick={!item.external ? (e: React.MouseEvent<HTMLAnchorElement>) => { e.preventDefault(); goToSection('herramienta'); } : undefined}>{item.cta} →</a>
+                ? <a className="eco-cta" href={item.href} onClick={!item.external && item.href ? (e: React.MouseEvent<HTMLAnchorElement>) => { e.preventDefault(); goToSection(item.href.slice(1)); } : undefined}>{item.cta} →</a>
                 : <span className="eco-cta eco-soon">{item.cta}</span>
               }
             </Reveal>

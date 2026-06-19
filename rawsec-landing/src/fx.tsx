@@ -215,7 +215,6 @@ export function TerminalTyper({ lines, motionLevel = 'max' }: TerminalTyperProps
     function typeLine(idx: number) {
       if (cancelled) return;
       if (idx >= lines.length) {
-        timer = setTimeout(() => { if (!cancelled) { setDone([]); setLi(0); typeLine(0); } }, 5200);
         return;
       }
       
@@ -470,8 +469,7 @@ export function LoadScreen() {
   // Progreso proporcional: N señales + fase final = N+1 pasos
   const N_SIGNALS = 3;
   const FINAL_PHASE = N_SIGNALS + 1;
-  const progress = phase === 0 ? 0 : Math.round((phase / FINAL_PHASE) * 100);
-  const cursorVisible = phase >= 1;
+  const progress = phase === 0 ? 12 : Math.round((phase / FINAL_PHASE) * 100);
   const wordmarkVisible = phase >= FINAL_PHASE;
 
   return (
@@ -490,7 +488,7 @@ export function LoadScreen() {
           </svg>
           <div className="load-divider"></div>
           {/* Panel derecho: cursor en fase 1+, RAWSEC en fase final */}
-          <div className={`load-right${cursorVisible ? ' load-right--in' : ''}`}>
+          <div className="load-right load-right--in">
             <div className="load-logo-row">
               <div className={`load-logo${wordmarkVisible ? ' load-logo--in' : ''}`}>
                 RAW<span>SEC</span>
