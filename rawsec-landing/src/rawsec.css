@@ -146,14 +146,13 @@ section.block { position: relative; padding: 88px 0; }
 .hero h1 .accent { color: var(--accent); }
 .hero-sub { color: var(--muted); font-size: clamp(16px, 2vw, 19px); max-width: 540px; margin-bottom: 36px; }
 .cta-row { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 40px; }
-.badge-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.badge-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.badge-label { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: .08em; opacity: .7; }
 .badge {
   font-family: var(--font-mono); font-size: 12px; color: var(--muted);
-  border: 1px solid var(--line); border-radius: 5px; padding: 7px 12px;
-  display: inline-flex; gap: 8px; align-items: center; transition: all .25s;
+  border: 1px solid var(--line); border-left: 2px solid var(--accent); border-radius: 5px; padding: 7px 14px;
+  display: inline-flex; align-items: center; cursor: default;
 }
-.badge:hover { border-color: var(--accent-60); color: var(--accent); }
-.badge::before { content: '◆'; color: var(--accent); font-size: 8px; }
 
 /* hero A — terminal */
 .hero-grid { display: grid; gap: 48px; align-items: center; width: 100%; }
@@ -283,13 +282,12 @@ body.motion-min .loop-svg text.loop-label { opacity: 1; }
 @media (min-width: 860px) { .steps-grid { grid-template-columns: repeat(4, 1fr); } }
 .step {
   border: 1px solid var(--line); border-radius: 8px; padding: 18px 16px; cursor: default;
-  transition: border-color .18s, background .18s, transform .18s cubic-bezier(.22,1,.36,1), box-shadow .18s;
+  transition: border-color .18s, background .18s, box-shadow .18s;
+  will-change: transform;
 }
 .step:hover {
   border-color: var(--accent-60); background: var(--accent-15);
-  transform: translateY(-5px);
   box-shadow: 0 12px 32px var(--accent-08), 0 0 0 1px var(--accent-30);
-  transition: border-color 0s, background 0s, transform .18s cubic-bezier(.22,1,.36,1), box-shadow 0s;
 }
 .step:hover h4 { color: var(--accent); }
 .step .n { font-family: var(--font-mono); font-size: 11px; color: var(--accent); }
@@ -360,7 +358,23 @@ body.motion-min .loop-svg text.loop-label { opacity: 1; }
 }
 .chip.cert { border-color: var(--accent-30); color: var(--accent); background: var(--accent-08); }
 
-/* ============ testimonials ============ */
+/* ============ case studies ============ */
+.cases-subtitle { font-family: var(--font-mono); font-size: 12px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; margin: 36px 0 16px; opacity: .7; }
+.cases-subtitle:first-of-type { margin-top: 0; }
+.cases-grid { display: grid; gap: 18px; margin-bottom: 0; }
+@media (min-width: 700px) { .cases-grid { grid-template-columns: repeat(2, 1fr); } }
+.case { border: 1px solid var(--accent-30); border-radius: 10px; padding: 28px 24px; display: flex; flex-direction: column; gap: 14px; background: linear-gradient(135deg, var(--accent-08), transparent 60%); }
+.case-top { display: flex; flex-direction: column; gap: 4px; }
+.case-type { font-family: var(--font-mono); font-size: 11px; color: var(--accent); letter-spacing: .1em; text-transform: uppercase; }
+.case-client { font-size: 22px; font-weight: 700; letter-spacing: -.02em; }
+.case-org { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+.case-what { font-size: 14px; color: var(--text); line-height: 1.65; flex: 1; opacity: .85; }
+.case-stack { display: flex; flex-wrap: wrap; gap: 6px; border-top: 1px solid var(--line); padding-top: 14px; }
+.case-stack span { font-family: var(--font-mono); font-size: 11px; color: var(--accent); border: 1px solid var(--accent-30); border-radius: 4px; padding: 3px 9px; background: var(--accent-08); }
+.case-cta { display: inline-flex; align-items: center; font-family: var(--font-mono); font-size: 13px; color: var(--accent); border: 1px solid var(--accent-30); border-radius: 6px; padding: 8px 16px; background: transparent; cursor: pointer; text-decoration: none; transition: all .2s; margin-top: auto; align-self: flex-start; }
+.case-cta:hover { background: var(--accent-08); border-color: var(--accent-60); }
+
+/* ============ testimonials (legacy, no longer used) ============ */
 .quotes-grid { display: grid; gap: 18px; }
 @media (min-width: 600px) { .quotes-grid { grid-template-columns: repeat(2, 1fr); } }
 .quote { border: 1px solid var(--line); border-radius: 10px; padding: 28px 24px; display: flex; flex-direction: column; gap: 18px; background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent); }
@@ -435,3 +449,15 @@ body.motion-min .loop-svg text.loop-label { opacity: 1; }
 .load-bar { width: 220px; height: 2px; background: rgba(255,255,255,0.07); border-radius: 2px; overflow: hidden; }
 /* Barra programática — controlada por React (inline style width) */
 .load-fill { height: 100%; width: 0; background: var(--accent); border-radius: 2px; transition: width .55s cubic-bezier(.4,0,.2,1); }
+
+/* ============ ecosystem ============ */
+.ecosystem { border-top: 1px solid var(--line); }
+.eco-grid { display: grid; gap: 18px; }
+@media (min-width: 600px) { .eco-grid { grid-template-columns: repeat(2, 1fr); } }
+.eco-card { border: 1px solid var(--line); border-radius: 10px; padding: 28px 24px; display: flex; flex-direction: column; gap: 12px; background: linear-gradient(180deg, rgba(255,255,255,0.015), transparent); }
+.eco-tag { font-family: var(--font-mono); font-size: 11px; color: var(--accent); letter-spacing: .1em; text-transform: uppercase; border: 1px solid var(--accent-30); border-radius: 4px; padding: 3px 8px; align-self: flex-start; background: var(--accent-08); }
+.eco-name { font-size: 20px; font-weight: 700; letter-spacing: -.02em; }
+.eco-desc { font-size: 14px; color: var(--muted); line-height: 1.6; flex: 1; }
+.eco-cta { display: inline-flex; font-family: var(--font-mono); font-size: 13px; color: var(--accent); text-decoration: none; border: 1px solid var(--accent-30); border-radius: 6px; padding: 8px 16px; align-self: flex-start; transition: all .2s; margin-top: auto; }
+.eco-cta:not(.eco-soon):hover { background: var(--accent-08); border-color: var(--accent-60); }
+.eco-soon { opacity: .45; cursor: default; }

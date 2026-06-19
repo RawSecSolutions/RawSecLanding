@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { motion } from 'framer-motion';
 
 // Importaciones totalmente activadas
 import { useWordEntrance, goToSection, ParticleField, TerminalTyper } from './fx';
@@ -23,9 +24,9 @@ export function HeroCtas({ L }: LProps) {
       <a className="btn btn-primary" href={`mailto:${RAWSEC_EMAIL}?subject=${encodeURIComponent(L.contact.mailSubject)}`}>
         {L.hero.cta1} <span className="arrow">→</span>
       </a>
-      <a className="btn btn-ghost" href="#servicios" onClick={(e: React.MouseEvent<HTMLAnchorElement>) => { 
-        e.preventDefault(); 
-        goToSection('servicios'); // Navegación activada
+      <a className="btn btn-ghost" href="#clientes" onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        goToSection('clientes');
       }}>
         {L.hero.cta2}
       </a>
@@ -36,7 +37,18 @@ export function HeroCtas({ L }: LProps) {
 export function HeroBadges({ L }: LProps) {
   return (
     <div className="badge-row">
-      {L.hero.badges.map((b: string) => <span className="badge" key={b}>{b}</span>)}
+      <span className="badge-label">Certificaciones activas:</span>
+      {L.hero.badges.map((b: string) => (
+        <motion.span
+          key={b}
+          className="badge"
+          whileHover={{ scale: 1.2, color: '#34d399', borderColor: '#34d399' }}
+          whileTap={{ scale: 0.8 }}
+          transition={{ type: 'spring', stiffness: 500, damping: 25 }}
+        >
+          {b}
+        </motion.span>
+      ))}
     </div>
   );
 }

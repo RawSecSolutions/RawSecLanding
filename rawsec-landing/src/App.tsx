@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 
-import { Nav, Strip, Services, Process, FeaturedProject, Team, Quotes, ClientsStrip, Contact, Footer } from './sections';
+import { Nav, Strip, Services, Process, FeaturedProject, Team, Quotes, ClientsStrip, Contact, Ecosystem, Footer } from './sections';
 import { HeroBlueprint } from './heroes';
 import { LoadScreen, signalAppReady } from './fx';
 import { RAWSEC_DATA } from './data';
@@ -39,13 +39,14 @@ export default function App() {
       <HeroBlueprint L={L} motionLevel={motionLevel} />
       <Strip L={L} />
       <main>
-        <Services L={L} />
-        <Process L={L} motionLevel={motionLevel} />
         <FeaturedProject L={L} />
-        <Team L={L} />
+        <Process L={L} motionLevel={motionLevel} />
+        <Services L={L} />
         <Quotes L={L} />
         <ClientsStrip items={L.quotes.clientsStrip || []} />
         <Contact L={L} />
+        <Team L={L} />
+        <Ecosystem L={L} />
       </main>
       <Footer L={L} />
     </>

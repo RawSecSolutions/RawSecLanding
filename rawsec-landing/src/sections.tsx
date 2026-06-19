@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, useScroll, useTransform, MotionValue } from 'framer-motion';
+import { motion, useScroll, useTransform, MotionValue, animate, hover, press } from 'framer-motion';
 
 // Importaciones activadas apuntando a los módulos que creamos
-import { Reveal, useCountdown, goToSection, ScrambleText } from './fx';
+import { Reveal, useCountdown, goToSection } from './fx';
 import { RAWSEC_EMAIL } from './data';
 
 // --- Interfaces ---
@@ -67,9 +67,8 @@ export function Nav({ L }: NavProps) {
   const go = (id: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     setOpen(false);
-    // servicios = 450vh → rango scrollable = (4.5-1)×vh = 3.5×innerHeight
-    // landing en SVC_SCROLL_START (0.15): 0.15×3.5 = 0.525×innerHeight
-    const extra = id === 'servicios' ? Math.round(SVC_SCROLL_START * 3.5 * window.innerHeight) : 0;
+    // servicios usa sticky 150vh → scrollable = 0.5×vh; 0.30×0.5 = 0.15×vh para llegar donde las tarjetas son visibles
+    const extra = id === 'servicios' ? Math.round(0.15 * window.innerHeight) : 0;
     goToSection(id, extra);
   };
 
@@ -235,10 +234,10 @@ function AnimatedServiceCard({
   index: number;
   scrollYProgress: MotionValue<number>;
 }) {
-  const start = 0.07 + index * 0.055;
-  const end = start + 0.08;
+  const start = 0.10 + index * 0.10;
+  const end = start + 0.18;
   const opacity = useTransform(scrollYProgress, [start, end], [0, 1], { clamp: true });
-  const x = useTransform(scrollYProgress, [start, end], [-70, 0], { clamp: true });
+  const x = useTransform(scrollYProgress, [start, end], [-50, 0], { clamp: true });
   return (
     <motion.article className="svc" style={{ opacity, x }}>
       <span className="idx">/0{index + 1}</span>
@@ -277,10 +276,10 @@ export function Services({ L }: LProps) {
     return () => ro.disconnect();
   }, []);
 
-  const headOpacity = useTransform(scrollYProgress, [0, 0.09], [0, 1], { clamp: true });
-  const headY = useTransform(scrollYProgress, [0, 0.09], [44, 0], { clamp: true });
-  const subOpacity = useTransform(scrollYProgress, [0.04, 0.14], [0, 1], { clamp: true });
-  const subY = useTransform(scrollYProgress, [0.04, 0.14], [28, 0], { clamp: true });
+  const headOpacity = useTransform(scrollYProgress, [0, 0.08], [0, 1], { clamp: true });
+  const headY = useTransform(scrollYProgress, [0, 0.08], [30, 0], { clamp: true });
+  const subOpacity = useTransform(scrollYProgress, [0.04, 0.15], [0, 1], { clamp: true });
+  const subY = useTransform(scrollYProgress, [0.04, 0.15], [20, 0], { clamp: true });
   const railX = useTransform(scrollYProgress, (v) => {
     const p = Math.max(0, (v - SVC_SCROLL_START) / (1 - SVC_SCROLL_START));
     return -p * scrollDistRef.current;
@@ -293,7 +292,7 @@ export function Services({ L }: LProps) {
       className="svc-section"
       id="servicios"
       data-screen-label="Servicios"
-      style={{ height: '450vh' }}
+      style={{ height: '150vh' }}
     >
       <div className="svc-sticky">
         <div className="container">
@@ -354,6 +353,43 @@ function findClosestDist(ghost: SVGPathElement, tx: number, ty: number): number 
     if (dist < bestD) { bestD = dist; best = d; }
   }
   return best;
+}
+
+/* ---------- step card with motion gesture ---------- */
+function StepCard({ st, i }: { st: any; i: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    // reveal (same logic as Reveal component)
+    if (document.body.classList.contains('motion-min')) {
+      el.classList.add('in');
+    } else {
+      const io = new IntersectionObserver(
+        ([e]) => { if (e.isIntersecting) { el.classList.add('in'); io.disconnect(); } },
+        { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+      );
+      io.observe(el);
+    }
+
+    // gesture
+    const state = { isHovered: false, isPressed: false };
+    const t = { type: 'spring' as const, stiffness: 500, damping: 25 };
+    const upd = () => animate(el, { scale: state.isPressed ? 0.88 : state.isHovered ? 1.06 : 1 }, t);
+    const sh = hover(el, () => { state.isHovered = true; upd(); return () => { state.isHovered = false; upd(); }; });
+    const sp = press(el, () => { state.isPressed = true; upd(); return () => { state.isPressed = false; upd(); }; });
+    return () => { sh(); sp(); };
+  }, []);
+
+  return (
+    <div ref={ref} className="step rv" style={{ transitionDelay: `${i * 60}ms` }}>
+      <span className="n">{String(i + 1).padStart(2, '0')}</span>
+      <h4>{st.n}</h4>
+      <p>{st.d}</p>
+    </div>
+  );
 }
 
 export function Process({ L, motionLevel }: ProcessProps) {
@@ -498,11 +534,7 @@ export function Process({ L, motionLevel }: ProcessProps) {
         </Reveal>
         <div className="steps-grid">
           {s.steps.map((st: any, i: number) => (
-            <Reveal key={st.n} className="step" delay={i * 60}>
-              <span className="n">{String(i + 1).padStart(2, '0')}</span>
-              <h4>{st.n}</h4>
-              <p>{st.d}</p>
-            </Reveal>
+            <StepCard key={st.n} st={st} i={i} />
           ))}
         </div>
       </div>
@@ -516,7 +548,7 @@ export function FeaturedProject({ L }: LProps) {
   const cd = useCountdown('2026-12-01T00:00:00-03:00');
   
   return (
-    <section className="block" id="proyecto" data-screen-label="Proyecto I+D">
+    <section className="block" id="herramienta" data-screen-label="Herramienta I+D">
       <div className="container">
         <SectionHead label={s.label} title="" />
         <Reveal as="article" className="proj">
@@ -593,19 +625,27 @@ export function ClientsStrip({ items }: { items: string[] }) {
   );
 }
 
-/* ---------- quotes ---------- */
+/* ---------- quotes / experiencias ---------- */
 export function Quotes({ L }: LProps) {
   const s = L.quotes;
   return (
-    <section className="block" id="clientes" data-screen-label="Clientes">
+    <section className="block" id="clientes" data-screen-label="Experiencias">
       <div className="container">
-        <SectionHead label={s.label} title={s.title} />
-        <div className="quotes-grid">
-          {s.items.map((q: any, i: number) => (
-            <Reveal as="blockquote" key={i} className="quote" delay={i * 110}>
-              <span className="qmark">"</span>
-              <p><ScrambleText text={q.q} /></p>
-              <footer><b>{q.who}</b>{q.org}</footer>
+        <SectionHead label={s.label} title={s.title} sub={s.sub} />
+        <div className="cases-grid">
+          {s.cases.map((c: any, i: number) => (
+            <Reveal key={i} className="case" delay={i * 80}>
+              <div className="case-top">
+                <span className="case-type">{c.type}</span>
+                <span className="case-client">{c.client}</span>
+                <span className="case-org">{c.org}</span>
+              </div>
+              <p className="case-what">{c.what}</p>
+              {c.link && (
+                c.link.external
+                  ? <a className="case-cta" href={c.link.href} target="_blank" rel="noopener noreferrer">{c.link.label} →</a>
+                  : <button className="case-cta" onClick={() => goToSection('contacto')}>{c.link.label} →</button>
+              )}
             </Reveal>
           ))}
         </div>
@@ -641,6 +681,31 @@ export function Contact({ L }: LProps) {
             </button>
           </div>
         </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- ecosystem ---------- */
+export function Ecosystem({ L }: LProps) {
+  const s = L.ecosystem;
+  return (
+    <section className="block ecosystem" data-screen-label="Ecosistema RawSec">
+      <div className="container">
+        <SectionHead label={s.label} title={s.title} />
+        <div className="eco-grid">
+          {s.items.map((item: any, i: number) => (
+            <Reveal key={i} className="eco-card" delay={i * 120}>
+              <div className="eco-tag">{item.tag}</div>
+              <h4 className="eco-name">{item.name}</h4>
+              <p className="eco-desc">{item.desc}</p>
+              {item.href
+                ? <a className="eco-cta" href={item.href} onClick={!item.external ? (e: React.MouseEvent<HTMLAnchorElement>) => { e.preventDefault(); goToSection('herramienta'); } : undefined}>{item.cta} →</a>
+                : <span className="eco-cta eco-soon">{item.cta}</span>
+              }
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   );
