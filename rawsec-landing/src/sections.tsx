@@ -102,7 +102,7 @@ export function Nav({ L }: NavProps) {
   );
 }
 
-/* ---------- marquee strip ---------- */
+/* ---------- strip 1 ---------- */
 export function Strip({ L }: LProps) {
   const [paused, setPaused] = useState(false);
   const items = [...L.strip, ...L.strip];
@@ -233,8 +233,16 @@ export function Services({ L }: LProps) {
               <span className="idx">/0{i + 1}</span>
               {SVC_ICONS[it.icon]}
               <h3>{it.title}</h3>
-              <p>{it.desc}</p>
-              <ul>{it.li.map((l: string) => <li key={l}>{l}</li>)}</ul>
+              <p>{it.desc1}</p>
+              <details>
+                <summary>Ver más</summary>
+                <br />
+                <div className="contenido-desplegable">
+                  <p>{it.desc2}</p>
+                  <br />
+                  <ul>{it.li.map((l: string) => <li key={l}>{l}</li>)}</ul>
+                </div>
+              </details>
             </Reveal>
           ))}
         </div>
@@ -513,7 +521,14 @@ export function Team({ L }: LProps) {
                   <span className="role">{m.role}</span>
                 </div>
               </div>
-              <p>{m.bio}</p>
+              <details>
+                <summary>Ver más</summary>
+                <br />
+                <div className="member-bio">
+                  <p>{m.bio}</p>
+                </div>
+              </details>
+              <br />
               <div className="chip-row">
                 {m.certs.map((c: string) => <span className="chip cert" key={c}>{c}</span>)}
                 {m.chips.map((c: string) => <span className="chip" key={c}>{c}</span>)}

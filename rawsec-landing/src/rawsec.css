@@ -206,7 +206,7 @@ body.motion-min .scanline-h { display: none; }
 .strip-track.paused { animation-play-state: paused; }
 .strip-track.reverse { animation-direction: reverse; animation-duration: 32s; }
 .strip span { font-family: var(--font-mono); font-size: 13px; letter-spacing: .14em; color: var(--muted); text-transform: uppercase; display: inline-flex; align-items: center; gap: 56px; }
-.strip span::after { content: '/'; color: var(--accent); }
+.strip span::after { content: '*'; color: var(--accent); }
 @keyframes marquee { to { transform: translateX(-50%); } }
 body.motion-min .strip-track { animation: none; }
 .clients-strip { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 0; }
