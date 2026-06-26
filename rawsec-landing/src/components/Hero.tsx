@@ -10,7 +10,6 @@ import { RAWSEC_EMAIL, MAIL_SUBJECT } from '@/lib/constants'
 const HERO = {
   eyebrow: 'Empresa de software & ciberseguridad · Santiago, Chile',
   h1: ['Construido a medida.', 'Blindado por diseño.'],
-  sub: 'Desarrollamos plataformas a medida con arquitectura segura. Y si ya tienes un sistema, nuestro equipo de ciberseguridad lo somete a pentesting y auditorías certificadas. Dos especialidades, una sola agencia para cubrir todo tu ciclo digital.',
   badges: ['eJPT', 'eWPTX', 'CCNA', 'AWS Cloud Practitioner'],
   coords: 'SANTIAGO, CHILE · 33.4489°S 70.6693°W',
 }
@@ -35,7 +34,9 @@ export function Hero({ motionLevel }: Props) {
           <span data-hw="" style={{ display: 'block' }}>{HERO.h1[0]}</span>
           <span className="stroke" data-hw="">{HERO.h1[1]}</span>
         </h1>
-        <p className="hero-sub" data-hw="">{HERO.sub}</p>
+        <p className="hero-sub" data-hw="">
+          Desarrollamos <span style={{ color: 'var(--accent)' }}>plataformas a medida</span> con <span style={{ color: 'var(--accent)' }}>arquitectura segura</span>. Y si ya tienes un sistema, nuestro equipo de ciberseguridad lo somete a <span style={{ color: 'var(--accent)' }}>pentesting</span> y <span style={{ color: 'var(--accent)' }}>auditorías certificadas</span>. Dos especialidades, una sola agencia para cubrir todo tu ciclo digital.
+        </p>
         <div data-hw="">
           <div className="cta-row">
             <a className="btn btn-primary" href={`mailto:${RAWSEC_EMAIL}?subject=${encodeURIComponent(MAIL_SUBJECT)}`}>
