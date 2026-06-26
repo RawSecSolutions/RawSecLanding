@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { Space_Grotesk, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 
-const SITE_URL = 'https://rawsec.solutions'
+const SITE_URL = 'https://www.rawsecsolutions.com'
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -19,34 +19,179 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 const KEYWORDS = [
-  'rawsec', 'rawsec solutions',
+  // Marca
+  'rawsec', 'rawsec solutions', 'rawsecsolutions', 'rawsec solutions spa',
+  'rawsecsolutions.com', 'rawsec chile', 'rawsec ciberseguridad', 'rawsec software',
+
+  // Ciberseguridad general
+  'ciberseguridad', 'ciberseguridad chile', 'ciberseguridad santiago',
+  'cybersecurity chile', 'cybersecurity santiago', 'seguridad informática chile',
+  'seguridad informática santiago', 'seguridad cibernética chile',
+  'empresa ciberseguridad chile', 'empresa de ciberseguridad chile',
+  'empresa ciberseguridad santiago', 'consultoría ciberseguridad chile',
+  'servicio de ciberseguridad chile', 'agencia ciberseguridad chile',
+  'especialistas en ciberseguridad chile', 'profesional ciberseguridad chile',
+  'contratar ciberseguridad chile', 'mejores empresas ciberseguridad chile',
+
+  // Pentesting
+  'pentesting', 'pentesting chile', 'pentesting santiago',
+  'pentest chile', 'pentest web chile', 'empresa pentesting chile',
+  'empresa de pentesting chile', 'servicio pentesting chile',
+  'contratar pentester chile', 'pentester chile', 'pentester santiago',
+  'pentesting web chile', 'pentesting aplicaciones web chile',
+  'pentesting de infraestructura chile', 'pentesting api chile',
+  'pentesting red chile', 'pentesting móvil chile', 'pentesting cloud chile',
+  'prueba de penetración chile', 'pruebas de penetración chile',
+  'test de penetración chile', 'test de intrusión chile',
+  'quien hace pentesting en chile', 'donde contratar pentesting chile',
+  'servicio pentesting chile precio',
+
+  // Hacking ético
+  'hacking ético', 'hacking ético chile', 'hacking ético santiago',
+  'ethical hacking chile', 'ethical hacking santiago',
+  'hacker ético chile', 'hackers éticos chile',
+  'contratar hacker ético chile', 'servicios hacking ético chile',
+  'offensive security chile', 'seguridad ofensiva chile',
+
+  // Red team / Blue team
+  'red team chile', 'red team santiago', 'ejercicio red team chile',
+  'blue team chile', 'purple team chile', 'threat simulation chile',
+  'simulación de ataque chile', 'adversary simulation chile',
+
+  // Auditorías
+  'auditoría de seguridad chile', 'auditoría de seguridad santiago',
+  'auditoría informática chile', 'auditoría ciberseguridad chile',
+  'auditoría de vulnerabilidades chile', 'auditoría de sistemas chile',
+  'análisis de vulnerabilidades chile', 'evaluación de seguridad chile',
+  'security assessment chile', 'vulnerability assessment chile',
+  'auditoría web chile', 'auditoría de red chile', 'auditoría cloud chile',
+  'auditorías certificadas chile', 'contratar auditoría seguridad chile',
+
+  // OWASP y vectores de ataque
+  'owasp chile', 'owasp top 10 chile', 'owasp testing chile',
+  'sql injection chile', 'inyección sql chile', 'xss chile',
+  'cross site scripting chile', 'csrf chile', 'idor chile',
+  'broken authentication chile', 'análisis owasp chile',
+  'ssrf chile', 'rce chile', 'lfi chile', 'rfi chile',
+  'privilege escalation chile', 'buffer overflow chile',
+
+  // Hardening
+  'hardening chile', 'hardening de servidores chile', 'hardening linux chile',
+  'hardening windows chile', 'hardening cloud chile', 'hardening aws chile',
+  'bastionado de sistemas chile', 'securización chile',
+  'configuración segura chile', 'cis benchmark chile',
+
+  // DevSecOps
+  'devsecops', 'devsecops chile', 'devsecops santiago',
+  'desarrollo seguro chile', 'software seguro chile', 'secure sdlc chile',
+  'sast chile', 'dast chile', 'iast chile', 'sca chile',
+  'análisis estático chile', 'análisis dinámico chile',
+  'pipeline seguro chile', 'ci cd seguro chile', 'shift left security chile',
+  'seguridad en el desarrollo chile', 'software born secure chile',
+  'arquitectura segura chile', 'plataformas seguras chile',
+  'software auditado chile',
+
+  // Cloud security
+  'cloud security chile', 'seguridad en la nube chile',
+  'aws security chile', 'seguridad aws chile', 'cloud compliance chile',
+  'iam security chile', 'iam hardening chile',
+  'amazon web services seguridad chile',
+
+  // Certificaciones
+  'ejpt', 'ejpt chile', 'ejpt certified', 'junior penetration tester chile',
+  'ewptx', 'ewptx chile', 'web application penetration tester extreme',
+  'ccna', 'ccna chile', 'cisco certified network associate chile',
+  'oscp chile', 'oscp certified chile',
+  'offensive security certified professional chile',
+  'ceh chile', 'certified ethical hacker chile', 'ec-council chile',
+  'pnpt chile', 'practical network penetration tester chile',
+  'comptia security plus chile', 'comptia pentest plus chile',
+  'aws certified security specialty chile', 'aws cloud practitioner chile',
+  'security certifications chile', 'certificaciones ciberseguridad chile',
+  'profesionales certificados ciberseguridad chile',
+
+  // Compliance
+  'cumplimiento ley 21719', 'ley 21719', 'ley 21719 chile',
+  'ley de protección de datos chile', 'ley de ciberseguridad chile',
+  'protección de datos personales chile', 'cumplimiento normativo chile',
+  'adecuación ley 21719 chile', 'implementación ley 21719 chile',
+  'gdpr chile', 'iso 27001 chile', 'iso 27001 implementación chile',
+  'iso 27001 auditoría chile', 'soc 2 chile', 'pci dss chile',
+  'consultoría iso 27001 chile', 'normativa ciberseguridad chile',
+
+  // Herramientas de seguridad conocidas
+  'burp suite chile', 'metasploit chile', 'nmap chile',
+  'wireshark chile', 'kali linux chile', 'parrot os chile',
+  'gobuster chile', 'nikto chile', 'sqlmap chile', 'hydra chile',
+  'john the ripper chile', 'hashcat chile', 'bloodhound chile',
+  'nessus chile', 'openvas chile', 'zap owasp chile',
+  'ffuf chile', 'subfinder chile', 'amass chile', 'recon-ng chile',
+
+  // Desarrollo de software
   'software a medida', 'software a medida chile', 'software a medida santiago',
   'desarrollo de software', 'desarrollo de software chile', 'desarrollo de software santiago',
-  'empresa de desarrollo de software chile', 'empresa de software chile', 'empresa tech chile',
-  'startup tecnológica chile', 'consultoría tecnológica chile', 'soluciones digitales chile',
-  'transformación digital chile', 'agencia digital chile', 'agencia de desarrollo web chile',
+  'empresa de desarrollo de software chile', 'empresa de software chile',
+  'empresa tech chile', 'empresa tecnológica chile',
+  'startup tecnológica chile', 'consultoría tecnológica chile',
+  'soluciones digitales chile', 'transformación digital chile',
+  'agencia digital chile', 'agencia de desarrollo web chile',
+  'fábrica de software chile', 'plataformas a medida chile',
+  'software empresarial chile', 'software para empresas chile',
+  'sistemas de gestión chile', 'contratar desarrolladores chile',
+  'contratar programadores chile', 'programadores chile',
+
+  // Desarrollo web
   'desarrollo web', 'desarrollo web chile', 'desarrollo web santiago',
-  'aplicaciones web', 'aplicaciones web chile', 'desarrollo saas', 'saas chile',
-  'e-commerce chile', 'tienda online chile', 'desarrollo e-commerce chile',
-  'sistemas de gestión chile', 'software para empresas chile', 'plataformas digitales chile',
-  'react chile', 'typescript chile', 'next.js chile', 'python chile', 'aws chile',
-  'ciberseguridad', 'ciberseguridad chile', 'ciberseguridad santiago',
-  'empresa ciberseguridad chile', 'empresa de ciberseguridad chile',
-  'pentesting', 'pentesting chile', 'pentesting santiago', 'empresa pentesting chile',
-  'pentesting web chile', 'pentesting de infraestructura chile',
-  'hacking ético', 'hacking ético chile', 'ethical hacking chile',
-  'auditoría de seguridad chile', 'análisis de vulnerabilidades chile',
-  'hardening', 'hardening chile', 'red team chile', 'owasp chile',
-  'devsecops', 'devsecops chile', 'desarrollo seguro chile', 'software seguro chile',
-  'sast chile', 'dast chile',
-  'cumplimiento ley 21719', 'ley 21719', 'ley 21719 chile',
-  'protección de datos personales chile', 'cumplimiento normativo chile',
-  'gdpr chile', 'adecuación normativa chile',
-  'inteligencia artificial chile', 'ia aplicada chile', 'chatbot ia chile',
-  'rag chatbot chile', 'machine learning chile', 'agentes ia chile', 'llm chile',
-  'pagos online chile', 'pasarela de pago chile', 'webpay chile', 'transbank chile',
-  'empresa de desarrollo y ciberseguridad chile', 'desarrollo de software seguro chile',
-  'contratar desarrolladores chile', 'contratar pentester chile',
+  'aplicaciones web', 'aplicaciones web chile', 'apps web chile',
+  'desarrollo de aplicaciones web chile', 'sitios web chile',
+  'desarrollo frontend chile', 'desarrollo backend chile',
+  'full stack chile', 'fullstack chile',
+
+  // SaaS / E-commerce / LMS
+  'desarrollo saas', 'saas chile', 'plataforma saas chile',
+  'e-commerce chile', 'tienda online chile', 'ecommerce chile',
+  'desarrollo e-commerce chile', 'webpay chile', 'transbank chile',
+  'pasarela de pago chile', 'pagos online chile', 'mercadopago chile',
+  'lms chile', 'plataforma educativa chile', 'e-learning chile',
+  'sistema de gestión de aprendizaje chile',
+
+  // Stack técnico
+  'react chile', 'next.js chile', 'nextjs chile', 'typescript chile',
+  'javascript chile', 'node.js chile', 'python chile',
+  'django chile', 'fastapi chile', 'nestjs chile',
+  'aws chile', 'docker chile', 'kubernetes chile',
+  'postgresql chile', 'mongodb chile', 'redis chile',
+  'api rest chile', 'graphql chile', 'microservicios chile',
+  'github actions chile', 'ci cd chile',
+
+  // Inteligencia artificial
+  'inteligencia artificial chile', 'ia aplicada chile', 'ia chile',
+  'ai chile', 'machine learning chile', 'deep learning chile',
+  'chatbot ia chile', 'rag chatbot chile', 'rag chile',
+  'agentes ia chile', 'llm chile', 'gpt chile',
+  'automatización con ia chile', 'ia para empresas chile',
+  'desarrollo ia chile',
+
+  // Combo desarrollo + ciberseguridad
+  'empresa de desarrollo y ciberseguridad chile',
+  'desarrollo de software seguro chile',
+  'agencia software y ciberseguridad chile',
+  'empresa full stack y pentesting chile',
+  'desarrollar y auditar chile', 'desarrollo seguro y pentesting chile',
+  'empresa de hacking y desarrollo chile',
+
+  // Long-tail / intención de búsqueda
+  'contratar empresa ciberseguridad chile',
+  'contratar pentester santiago', 'contratar red team chile',
+  'buscar empresa ciberseguridad chile',
+  'empresa ciberseguridad santiago recomendada',
+  'empresa ciberseguridad pyme chile',
+  'seguridad para startups chile', 'ciberseguridad para pymes chile',
+  'ciberseguridad para empresas chile',
+  'proteger empresa de ciberataques chile',
+  'prevenir ciberataques chile',
+  'quien ofrece pentesting en chile',
+  'donde hacer auditoría de seguridad chile',
 ]
 
 const jsonLd = {
@@ -185,14 +330,14 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
-    shortcut: '/favicon.svg',
-    apple: [
-      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
-      { url: '/apple-touch-icon.png', sizes: '152x152', type: 'image/png' },
-      { url: '/apple-touch-icon.png', sizes: '120x120', type: 'image/png' },
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
     ],
-    other: [{ rel: 'mask-icon', url: '/favicon.svg', color: '#00ff88' }],
+    shortcut: '/favicon-32x32.png',
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
+    other: [{ rel: 'mask-icon', url: '/favicon.svg', color: '#34d399' }],
   },
 
   manifest: '/site.webmanifest',
