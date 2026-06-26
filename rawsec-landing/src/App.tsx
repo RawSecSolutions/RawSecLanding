@@ -1,54 +1,64 @@
-import { useEffect, useMemo } from 'react';
+'use client'
 
-import { Nav, Strip, Services, Process, FeaturedProject, Team, Quotes, ClientsStrip, Contact, Ecosystem, Footer } from './sections';
-import { HeroBlueprint } from './heroes';
-import { LoadScreen, signalAppReady } from './fx';
-import { RAWSEC_DATA } from './data';
+import { useState, useEffect } from 'react'
+import { Nav } from '@/components/Nav'
+import { Hero } from '@/components/Hero'
+import { Strip } from '@/components/Strip'
+import { Team } from '@/components/Team'
+import { Quotes } from '@/components/Quotes'
+import { ClientsStrip } from '@/components/ClientsStrip'
+import { Process } from '@/components/Process'
+import { Services } from '@/components/Services'
+import { FeaturedProject } from '@/components/FeaturedProject'
+import { Ecosystem } from '@/components/Ecosystem'
+import { Contact } from '@/components/Contact'
+import { Footer } from '@/components/Footer'
+import { LoadScreen } from '@/components/ui/LoadScreen'
+import { FloatingCtas } from '@/components/FloatingCtas'
+import { signalAppReady } from '@/lib/motion'
 
 export default function App() {
-  const L = RAWSEC_DATA;
-
-  const reduced = useMemo(() =>
-    window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches, []);
-
-  const motionLevel = reduced ? 'min' : 'max';
+  const [motionLevel, setMotionLevel] = useState<'min' | 'max'>('max')
 
   useEffect(() => {
-    document.documentElement.style.setProperty('--font-heading', 'var(--font-display)');
-    document.body.classList.toggle('bg-grid', true);
-    document.body.classList.toggle('scanlines', false);
-    document.body.classList.toggle('motion-min', motionLevel === 'min');
-    document.documentElement.lang = 'es';
-  }, [motionLevel]);
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) setMotionLevel('min')
+  }, [])
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--font-heading', 'var(--font-display)')
+    document.body.classList.toggle('bg-grid', true)
+    document.body.classList.toggle('motion-min', motionLevel === 'min')
+    document.documentElement.lang = 'es'
+  }, [motionLevel])
 
   useEffect(() => {
     requestAnimationFrame(() => {
       if ('requestIdleCallback' in window) {
-        (window as Window & typeof globalThis & { requestIdleCallback: (cb: IdleRequestCallback, opts?: IdleRequestOptions) => number })
-          .requestIdleCallback(() => signalAppReady(), { timeout: 2500 });
+        (window as any).requestIdleCallback(() => signalAppReady(), { timeout: 2500 })
       } else {
-        requestAnimationFrame(() => requestAnimationFrame(() => signalAppReady()));
+        requestAnimationFrame(() => requestAnimationFrame(() => signalAppReady()))
       }
-    });
-  }, []);
+    })
+  }, [])
 
   return (
     <>
       <LoadScreen />
-      <Nav L={L} />
-      <HeroBlueprint L={L} motionLevel={motionLevel} />
-      <Strip L={L} />
+      <Nav />
+      <Hero motionLevel={motionLevel} />
+      <Strip />
       <main>
-        <Team L={L} />
-        <Quotes L={L} />
-        <ClientsStrip items={L.quotes.clientsStrip || []} />
-        <Process L={L} motionLevel={motionLevel} />
-        <Services L={L} />
-        <FeaturedProject L={L} />
-        <Ecosystem L={L} />
-        <Contact L={L} />
+        <Team />
+        <Quotes />
+        <ClientsStrip />
+        <Process motionLevel={motionLevel} />
+        <Services />
+        <FeaturedProject />
+        <Ecosystem />
+        <Contact />
       </main>
-      <Footer L={L} />
+      <Footer />
+      <FloatingCtas />
     </>
-  );
+  )
 }
