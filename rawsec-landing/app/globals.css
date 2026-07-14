@@ -222,6 +222,12 @@ body.motion-min .strip-track { animation: none; }
 /* ============ services grid ============ */
 .svc-grid { display: grid; gap: 18px; }
 @media (min-width: 760px) { .svc-grid { grid-template-columns: repeat(2, 1fr); } }
+.svc-grid--single { grid-template-columns: 1fr; }
+@media (min-width: 760px) { .svc-grid--single { grid-template-columns: 1fr; } }
+.svc--single { padding: 40px 40px; }
+.svc--single h3 { font-size: 24px; }
+.svc--single > p { font-size: 16px; max-width: 68ch; }
+.svc--single .contenido-desplegable ul { margin-top: 18px; }
 
 .svc {
   border: 1px solid var(--line); border-radius: 10px; padding: 30px 26px;
