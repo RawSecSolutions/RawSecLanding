@@ -29,7 +29,7 @@ export function ExpandToggle({ children, label = 'Ver más', labelClose = 'Ver m
           </motion.div>
         )}
       </AnimatePresence>
-      <button className="expand-btn" onClick={() => setOpen(o => !o)}>
+      <button className="expand-btn" aria-expanded={open} onClick={() => setOpen(o => !o)}>
         {open ? labelClose : label}
       </button>
     </div>

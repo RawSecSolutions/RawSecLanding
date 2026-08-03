@@ -6,10 +6,10 @@ import { goToSection } from '@/lib/utils'
 import { RAWSEC_EMAIL, MAIL_SUBJECT } from '@/lib/constants'
 
 const LINKS = [
-  { id: 'equipo',       label: 'Perfiles'    },
-  { id: 'proyectos',    label: 'Proyectos'   },
-  { id: 'proceso',      label: 'DevSecOps'   },
+  { id: 'nosotros',     label: 'Nosotros'    },
   { id: 'servicios',    label: 'Servicios'   },
+  { id: 'proceso',      label: 'DevSecOps'   },
+  { id: 'proyectos',    label: 'Proyectos'   },
   { id: 'herramientas', label: 'Herramientas'},
   { id: 'contacto',     label: 'Contacto'    },
 ]

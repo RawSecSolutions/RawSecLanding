@@ -1,7 +1,6 @@
 'use client'
 
 import { useRef, useEffect } from 'react'
-import { motion } from 'framer-motion'
 import { SectionHead } from '@/components/SectionHead'
 import { Reveal } from '@/components/ui/Reveal'
 
@@ -41,38 +40,6 @@ const STEPS = [
   { n: 'Operar',     d: 'Gestión de accesos y secretos' },
   { n: 'Monitorear', d: 'Alertas, logs y respuesta a incidentes' },
 ]
-
-function StepCard({ st, i }: { st: typeof STEPS[0]; i: number }) {
-  const ref = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    if (document.body.classList.contains('motion-min')) {
-      el.classList.add('in')
-      return
-    }
-    const io = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { el.classList.add('in'); io.disconnect() } },
-      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
-    )
-    io.observe(el)
-    return () => io.disconnect()
-  }, [])
-  return (
-    <motion.div
-      ref={ref}
-      className="step rv"
-      style={{ transitionDelay: `${i * 60}ms` }}
-      whileHover={{ scale: 1.06 }}
-      whileTap={{ scale: 0.88 }}
-      transition={{ type: 'spring', stiffness: 500, damping: 25 }}
-    >
-      <span className="n">{String(i + 1).padStart(2, '0')}</span>
-      <h4>{st.n}</h4>
-      <p>{st.d}</p>
-    </motion.div>
-  )
-}
 
 interface Props { motionLevel?: string }
 
@@ -140,9 +107,14 @@ export function Process({ motionLevel = 'max' }: Props) {
             {motionLevel !== 'min' && <circle ref={dotRef} r="5" cx="400" cy="160" fill="var(--accent)" />}
           </svg>
         </Reveal>
-        <div className="steps-grid">
-          {STEPS.map((st, i) => <StepCard key={st.n} st={st} i={i} />)}
-        </div>
+        <Reveal className="steps-chips">
+          {STEPS.map((st, i) => (
+            <span className="step-chip" key={st.n}>
+              <span className="n">{String(i + 1).padStart(2, '0')}</span>
+              {st.n}
+            </span>
+          ))}
+        </Reveal>
       </div>
     </section>
   )

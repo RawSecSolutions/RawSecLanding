@@ -1,48 +1,95 @@
 'use client'
 
-import { type ReactNode } from 'react'
 import { SectionHead } from '@/components/SectionHead'
 import { Reveal } from '@/components/ui/Reveal'
 import { ExpandToggle } from '@/components/ui/ExpandToggle'
+import { goToSection } from '@/lib/utils'
+import { RAWSEC_EMAIL, MAIL_SUBJECT } from '@/lib/constants'
 
-const ICON_OFFENSIVE: ReactNode = (
-  <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="icon">
-    <path d="M22 6 L36 11 V21 C36 30 30 36 22 39 C14 36 8 30 8 21 V11 Z" />
-    <path d="M19 16 L15 22 L19 28" /><path d="M25 16 L29 22 L25 28" />
-  </svg>
-)
-
-const SERVICE = {
-  title: 'Software con mentalidad ofensiva',
-  desc1: 'Construimos software con mentalidad ofensiva: desarrollamos cada línea de código sabiendo exactamente cómo la intentarían romper.',
-  desc2: 'Desarrollo y seguridad no son etapas separadas. Diseñamos, escribimos y desplegamos pensando como el atacante que intentará vulnerarlo, para entregar plataformas que ya nacen preparadas para resistir.',
-  li: [
-    'Plataformas web, SaaS, LMS y e-commerce',
-    'Integraciones, IA y automatización',
-    'Pentesting web, API e infraestructura',
-    'Auditorías cloud (AWS), hardening y cumplimiento',
-  ],
-}
+const TIERS = [
+  {
+    title: 'Desarrollo Seguro',
+    tag: 'Estándar base · incluido en todo proyecto',
+    badge: 'Incluido',
+    summary: 'Software con seguridad incorporada desde el diseño. Viene aplicado por defecto en cada plataforma que construimos, sin costo adicional.',
+    detail: [
+      'Validación y sanitización de inputs (anti inyección y XSS)',
+      'Autenticación segura: hashing bcrypt/Argon2 y bloqueo por fuerza bruta',
+      'Sesiones y cookies endurecidas (HttpOnly, Secure)',
+      'Cobertura del OWASP Top 10',
+      'Gestión de secretos en variables de entorno',
+      'Cifrado en tránsito (HTTPS/TLS) y en reposo',
+      'Control de accesos por roles (RBAC)',
+      'Headers de seguridad, CORS y rate limiting',
+    ],
+    note: 'No incluye informe formal ni pentest. Si necesitas esa acreditación, corresponde al Desarrollo Auditado.',
+  },
+  {
+    title: 'Desarrollo Auditado',
+    tag: 'Todo lo anterior + pentest formal con informe firmado',
+    badge: null,
+    summary: 'Al terminar el desarrollo, un pentester certificado (eJPT, eWPTX) audita la plataforma como parte independiente y entrega informe firmado.',
+    detail: [
+      'Todo lo del Desarrollo Seguro',
+      'Pentest manual de la aplicación terminada',
+      'Informe ejecutivo (gerencia) + informe técnico detallado',
+      'Hallazgos priorizados por impacto y esfuerzo',
+      'Mapeo contra OWASP ASVS y controles ISO 27001 (Anexo A)',
+      'Un retest incluido tras aplicar las correcciones',
+    ],
+    note: 'RawSec entrega la evidencia técnica; la certificación ISO 27001 la emite un organismo acreditado.',
+  },
+  {
+    title: 'Servicios Particulares',
+    tag: 'Auditoría independiente sobre sistemas que ya tienes',
+    badge: null,
+    summary: 'Servicios de seguridad individuales sobre tu infraestructura existente, sin desarrollo de por medio. Cada uno se cotiza por separado según el alcance.',
+    detail: [
+      'Pentest web / API (eJPT, eWPTX)',
+      'Auditoría de red (CCNA)',
+      'Auditoría cloud AWS contra CIS Benchmarks',
+      'Hardening de servidores (Linux / Windows)',
+      'Análisis de vulnerabilidades',
+      'Revisión de control de accesos',
+      'Gap analysis vs OWASP ASVS / ISO 27001 / CIS',
+    ],
+    note: 'Requiere autorización escrita del cliente para probar sus sistemas.',
+  },
+]
 
 export function Services() {
   return (
     <section className="block" id="servicios" data-screen-label="Servicios">
       <div className="container">
-        <SectionHead label="04 — Servicios" title="Un solo equipo. Mentalidad ofensiva."
-          sub={<>No solo construimos: <span style={{ color: 'var(--accent)' }}>desarrollamos sabiendo cómo se rompe</span>. Cada línea de código nace pensando como el atacante que intentará vulnerarla.</>} />
-        <div className="svc-grid svc-grid--single">
-          <Reveal as="article" className="svc svc--single">
-            <span className="idx">/01</span>
-            {ICON_OFFENSIVE}
-            <h3>{SERVICE.title}</h3>
-            <p>{SERVICE.desc1}</p>
-            <ExpandToggle>
-              <div className="contenido-desplegable">
-                <p>{SERVICE.desc2}</p>
-                <ul>{SERVICE.li.map(l => <li key={l}>{l}</li>)}</ul>
+        <SectionHead label="02 — Servicios" title="Un solo equipo. Mentalidad ofensiva."
+          sub={<>No solo construimos: <span style={{ color: 'var(--accent)' }}>desarrollamos sabiendo cómo se rompe</span>. Tres niveles según lo que necesites — desde software con seguridad incluida hasta auditoría independiente de tus sistemas.</>} />
+        <div className="tier-grid">
+          {TIERS.map((t, i) => (
+            <Reveal as="article" className="svc" key={t.title} delay={i * 100}>
+              <div className="svc-head-row">
+                <span className="idx">/0{i + 1}</span>
+                {t.badge && <span className="svc-badge">{t.badge}</span>}
               </div>
-            </ExpandToggle>
-          </Reveal>
+              <h3>{t.title}</h3>
+              <p className="svc-tag">{t.tag}</p>
+              <p>{t.summary}</p>
+              <ExpandToggle>
+                <div className="contenido-desplegable">
+                  <ul>{t.detail.map(d => <li key={d}>{d}</li>)}</ul>
+                  {t.note && <p className="svc-note">{t.note}</p>}
+                </div>
+              </ExpandToggle>
+            </Reveal>
+          ))}
+        </div>
+        <div className="svc-ctas">
+          <a className="btn btn-primary"
+            href={`mailto:${RAWSEC_EMAIL}?subject=${encodeURIComponent(MAIL_SUBJECT)}`}>
+            Agendar reunión <span className="arrow">→</span>
+          </a>
+          <button className="btn btn-ghost" onClick={() => goToSection('proyectos')} type="button">
+            Ver proyectos
+          </button>
         </div>
       </div>
     </section>

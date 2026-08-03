@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { Nav } from '@/components/Nav'
 import { Hero } from '@/components/Hero'
 import { Strip } from '@/components/Strip'
-import { Team } from '@/components/Team'
+import { Nosotros } from '@/components/Nosotros'
 import { Quotes } from '@/components/Quotes'
 import { ClientsStrip } from '@/components/ClientsStrip'
 import { Process } from '@/components/Process'
@@ -48,11 +48,11 @@ export default function App() {
       <Hero motionLevel={motionLevel} />
       <Strip />
       <main>
-        <Team />
-        <Quotes />
-        <ClientsStrip />
-        <Process motionLevel={motionLevel} />
+        <Nosotros />
         <Services />
+        <Process motionLevel={motionLevel} />
+        <ClientsStrip />
+        <Quotes />
         <FeaturedProject />
         <Ecosystem />
         <Contact />
